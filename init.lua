@@ -219,32 +219,20 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- Add autocommands for filetype-specific settings
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'markdown',
-  callback = function()
-    vim.opt.wrap = true
-    vim.opt.spell = true
-    -- Remove or comment out any markdownlint-related configuration
-    -- Example: vim.cmd('autocmd BufWritePost *.md silent! !markdownlint %')
-  end,
-})
-
 -- Enable LSP inlay hints if supported (Neovim 0.11+)
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('lsp-inlay-hints', { clear = true }),
   callback = function(event)
     local client = vim.lsp.get_client_by_id(event.data.client_id)
-    if client and client.supports_method('textDocument/inlayHint') then
+    if client and client.supports_method 'textDocument/inlayHint' then
       local bufnr = event.buf
       -- Neovim 0.11+ API
-      if vim.lsp.inlay_hint and type(vim.lsp.inlay_hint.enable) == "function" then
+      if vim.lsp.inlay_hint and type(vim.lsp.inlay_hint.enable) == 'function' then
         vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
       end
     end
   end,
 })
-
 
 -- Replace vim.o with vim.opt for better readability
 vim.opt.number = true
