@@ -70,7 +70,8 @@ return {
     'tpope/vim-fugitive',
     cmd = { 'Git', 'Gstatus', 'Gcommit', 'Gpush', 'Gpull' },
     config = function()
-      vim.keymap.set('n', '<leader>gs', ':Git<CR>', { desc = 'Open Git status', silent = true })
+      -- Ensure the key mapping is applied globally
+      vim.keymap.set('n', '<leader>gs', ':Git<CR>', { desc = 'Open Git status', silent = true, noremap = true })
     end,
   },
 }
