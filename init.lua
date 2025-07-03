@@ -872,12 +872,12 @@ require('lazy').setup({
           -- `friendly-snippets` contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
           --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
         },
         opts = {},
       },
@@ -1074,7 +1074,7 @@ require('lazy').setup({
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  { import = 'custom.plugins' },
+  { import = 'custom.plugins' }, -- Import plugins from the custom directory
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
@@ -1102,5 +1102,26 @@ require('lazy').setup({
   },
 })
 
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'LazyDone', -- Trigger after Lazy.nvim finishes loading plugins
+  callback = function()
+    vim.keymap.set('v', '<leader>cc', ':Copilot<CR>', { desc = 'Copilot Chat (visual)', silent = true }) -- Replace with valid Copilot command
+    vim.keymap.set('n', '<leader>ce', ':Copilot<CR>', { desc = 'Copilot Explain', silent = true }) -- Replace with valid Copilot command
+  end,
+})
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('lsp-keymaps', { clear = true }),
+  callback = function(event)
+    local map = function(keys, func, desc)
+      vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+    end
+
+    -- LSP Keymaps
+    map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+    map('K', vim.lsp.buf.hover, 'Hover Documentation')
+    map('gi', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
+    map('<leader>ds', vim.lsp.buf.document_symbol, '[D]ocument [S]ymbols')
+    map('<leader>ws', vim.lsp.buf.workspace_symbol, '[W]orkspace [S]ymbols')
+  end,
+})
