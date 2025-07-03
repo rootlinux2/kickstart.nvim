@@ -59,10 +59,18 @@ return {
           end
         end,
       })
-        -- Manually trigger linting
-    vim.keymap.set('n', '<leader>l', function()
-      lint.try_lint()
-    end, { desc = 'Trigger linting for current file' })
+      -- Manually trigger linting
+      vim.keymap.set('n', '<leader>l', function()
+        lint.try_lint()
+      end, { desc = 'Trigger linting for current file' })
+    end,
+  },
+
+  { -- Git integration
+    'tpope/vim-fugitive',
+    cmd = { 'Git', 'Gstatus', 'Gcommit', 'Gpush', 'Gpull' },
+    config = function()
+      vim.keymap.set('n', '<leader>gs', ':Git<CR>', { desc = 'Open Git status', silent = true })
     end,
   },
 }

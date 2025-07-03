@@ -166,6 +166,9 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- Custom consfiguration for fold/unfold
+vim.o.foldmethod = 'indent'
+vim.o.foldlevel = 99 -- So folds are open by default
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
