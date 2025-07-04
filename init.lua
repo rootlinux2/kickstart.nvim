@@ -218,6 +218,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.hl.on_yank()
   end,
 })
+-- Gitblame
+vim.keymap.set('n', '<leader>gb', function()
+  require('gitsigns').blame_line { full = true }
+end, { desc = 'Git Blame Line' })
 
 -- Enable LSP inlay hints if supported (Neovim 0.11+)
 vim.api.nvim_create_autocmd('LspAttach', {
