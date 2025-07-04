@@ -1105,6 +1105,10 @@ require('lazy').setup({
       lazy = '💤 ',
     },
   },
+  rocks = {
+    enabled = false, -- Disable luarocks support completely
+    hererocks = false, -- Disable hererocks specifically
+  },
 })
 
 vim.api.nvim_create_autocmd('User', {
