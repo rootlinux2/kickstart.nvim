@@ -164,7 +164,8 @@ vim.opt.scrolloff = 10
 vim.opt.confirm = true
 
 -- Custom consfiguration for fold/unfold
-vim.opt.foldmethod = 'indent'
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.opt.foldlevel = 99 -- So folds are open by default
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
