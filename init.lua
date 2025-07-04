@@ -425,6 +425,18 @@ require('lazy').setup({
     },
   },
   { -- Fuzzy Finder (files, lsp, etc)
+    'ibhagwan/fzf-lua',
+    dependencies = {
+      'nvim-tree/nvim-web-devicons', -- optional for file icons
+    },
+    opts = {
+      files = {
+        -- Disable the use of `find` due to compatibility issues
+        cmd = 'rg --files --hidden --follow -g "!{.git,node_modules}"',
+      },
+    },
+  },
+  { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
     event = 'VimEnter',
     dependencies = {
