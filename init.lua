@@ -176,6 +176,11 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear highlights o
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
+-- Switch between Tabs
+
+vim.keymap.set('n', '<leader>tn', ':tabnext<CR>', { desc = 'Next Tab' })
+vim.keymap.set('n', '<leader>tp', ':tabprevious<CR>', { desc = 'Previous Tab' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
