@@ -1159,3 +1159,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
     map('<leader>ws', vim.lsp.buf.workspace_symbol, '[W]orkspace [S]ymbols')
   end,
 })
+
+-- Disable dashboard for certain startup conditions
+-- vim.api.nvim_create_autocmd('VimEnter', {
+--   callback = function()
+--     -- Only show dashboard if no files were opened and no command line arguments
+--     if vim.fn.argc() == 0 and vim.fn.line2byte('$') == -1 then
+--       -- Dashboard will show automatically
+--     else
+--       -- Disable dashboard if files are opened
+--       vim.cmd('silent! Dashboard')
+--     end
+--   end,
+-- })
