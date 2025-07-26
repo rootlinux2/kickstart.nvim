@@ -774,7 +774,7 @@ require('lazy').setup({
 
       local servers = {
         -- Only configure these if not in a Yarn PnP project
-        ts_ls = not is_yarn_pnp_project() and {} or nil,
+        vtsls = not is_yarn_pnp_project() and {} or nil, -- Use vtsls instead of ts_ls
         eslint = not is_yarn_pnp_project() and {} or nil,
 
         lua_ls = {
@@ -797,9 +797,10 @@ require('lazy').setup({
       end
 
       local ensure_installed = vim.tbl_keys(filtered_servers or {})
-      -- Only add these tools if not in Yarn PnP project
+      -- Only add these tools if not in a Yarn PnP project
       if not is_yarn_pnp_project() then
         vim.list_extend(ensure_installed, {
+          'vtsls', -- TypeScript/JavaScript LSP with better PnP support
           'eslint_d', -- ESLint daemon for faster linting
           'prettier', -- JavaScript/TypeScript formatter
         })
