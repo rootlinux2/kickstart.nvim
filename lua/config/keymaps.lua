@@ -38,3 +38,12 @@ km('n', '<leader>fg', builtin.live_grep,  { desc = "Live grep project" })
 km('n', '<leader>fb', builtin.buffers,    { desc = "Find buffers" })
 km('n', '<leader>fh', builtin.help_tags,  { desc = "Find help" })
 
+-- Formatter
+km('n', '<leader>f', function()
+  if vim.bo.filetype == 'lua' then
+    vim.cmd('!stylua %')
+  else
+    vim.lsp.buf.format({ async = true })
+  end
+end, { desc = 'Format current file' })
+
