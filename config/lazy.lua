@@ -76,4 +76,10 @@ require('lazy').setup {
   'neovim/nvim-lspconfig',
   'williamboman/mason.nvim',
   'WhoIsSethDaniel/mason-tool-installer.nvim',
+
+  --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
+  { import = 'kickstart.plugins' }, -- Import plugins from the custom directory
+  { import = 'custom.plugins' }, -- Import plugins from the custom directory
+  --
+
 }
