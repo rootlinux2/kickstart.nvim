@@ -8,8 +8,8 @@ vim.g.have_nerd_font = true
 
 -- Load modules
 require 'config.options'
-require 'config.keymaps'
-require 'config.autocmds'
 require 'config.lazy' -- plugin manager & plugins
+require 'config.autocmds'
 require 'config.diagnostics'
+require 'config.keymaps'
 --require 'config.guess-indent' -- optional plugin config

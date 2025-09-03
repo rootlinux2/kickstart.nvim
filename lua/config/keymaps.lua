@@ -29,3 +29,12 @@ km('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 km('n', '<leader>gb', function()
   require('gitsigns').blame_line { full = true }
 end, { desc = 'Git Blame Line' })
+
+-- Telescope
+local builtin = require('telescope.builtin')
+
+km('n', '<leader>ff', builtin.find_files, { desc = "Find files" })
+km('n', '<leader>fg', builtin.live_grep,  { desc = "Live grep project" })
+km('n', '<leader>fb', builtin.buffers,    { desc = "Find buffers" })
+km('n', '<leader>fh', builtin.help_tags,  { desc = "Find help" })
+

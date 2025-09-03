@@ -1,6 +1,8 @@
 -- Basic Neovim options
 local o = vim.opt
 
+o.termguicolors = true
+o.shell = "/usr/bin/zsh"
 o.number = true
 o.relativenumber = true
 o.mouse = 'a'

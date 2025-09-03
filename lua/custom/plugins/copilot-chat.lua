@@ -1,14 +1,13 @@
 return {
-  'CopilotC-Nvim/CopilotChat.nvim',
-  branch = 'canary',
-  dependencies = {
-    { 'github/copilot.vim' }, -- must be installed
-    { 'nvim-lua/plenary.nvim' },
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    build = "make tiktoken",
+    branch = "main",
+    opts = {
+      -- See Configuration section for options
+    },
   },
-  config = function()
-    require('CopilotChat').setup {
-      -- optional configuration
-    }
-  end,
-  cmd = { 'CopilotChat', 'CopilotChatToggle' },
 }
