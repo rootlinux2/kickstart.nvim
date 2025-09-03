@@ -413,6 +413,7 @@ require('lazy').setup({
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
         { '<leader>d', group = '[D]ebug' },
+        { '<leader>cc', group = '[C]opilot [C]hat', mode = { 'n', 'v' } },
       },
     },
   },
@@ -774,8 +775,26 @@ require('lazy').setup({
 
       local servers = {
         -- Only configure these if not in a Yarn PnP project
-        vtsls = not is_yarn_pnp_project() and {} or nil, -- Use vtsls instead of ts_ls
-        eslint = not is_yarn_pnp_project() and {} or nil,
+        vtsls = not is_yarn_pnp_project() and {
+          -- Fix MaxListenersExceededWarning by limiting watchers
+          settings = {
+            typescript = {
+              preferences = {
+                maxTsServerFileWatcherCount = 10,
+              },
+            },
+          },
+        } or nil,
+        eslint = not is_yarn_pnp_project() and {
+          -- Fix ESLint registerCapability warning
+          capabilities = {
+            workspace = {
+              didChangeWorkspaceFolders = {
+                dynamicRegistration = false,
+              },
+            },
+          },
+        } or nil,
 
         lua_ls = {
           settings = {
@@ -1133,8 +1152,7 @@ require('lazy').setup({
 vim.api.nvim_create_autocmd('User', {
   pattern = 'LazyDone', -- Trigger after Lazy.nvim finishes loading plugins
   callback = function()
-    vim.keymap.set('v', '<leader>cc', ':Copilot<CR>', { desc = 'Copilot Chat (visual)', silent = true }) -- Replace with valid Copilot command
-    vim.keymap.set('n', '<leader>ce', ':Copilot<CR>', { desc = 'Copilot Explain', silent = true }) -- Replace with valid Copilot command
+    -- Copilot Chat keymaps are now configured in the plugin file
   end,
 })
 

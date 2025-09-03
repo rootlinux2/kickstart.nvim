@@ -31,7 +31,7 @@ return {
     if is_yarn_pnp_project() then
       local cwd = vim.fn.getcwd()
       
-      -- ESLint LSP for Yarn PnP - use yarn eslint directly
+      -- ESLint LSP for Yarn PnP
       lspconfig.eslint.setup({
         cmd = { 'yarn', 'eslint', '--stdio' },
         root_dir = root_dir,
@@ -39,6 +39,13 @@ return {
           validate = 'on',
           packageManager = 'yarn',
           useESLintClass = true,
+        },
+        capabilities = {
+          workspace = {
+            didChangeWorkspaceFolders = {
+              dynamicRegistration = false,
+            },
+          },
         },
         on_attach = function(client, bufnr)
           vim.api.nvim_create_autocmd('BufWritePre', {
@@ -48,7 +55,7 @@ return {
         end,
       })
 
-      -- TypeScript LSP for Yarn PnP - use vtsls instead of ts_ls for better PnP support
+      -- TypeScript LSP for Yarn PnP using vtsls
       lspconfig.vtsls.setup({
         root_dir = root_dir,
         settings = {
@@ -61,38 +68,31 @@ return {
                   enableForWorkspaceTypeScriptVersions = true,
                 },
               },
+              -- Limit file watchers to prevent memory leaks
+              watchOptions = {
+                watchFile = "useFsEventsOnParentDirectory",
+                watchDirectory = "useFsEventsOnParentDirectory",
+                excludeDirectories = { "**/node_modules", "**/.git", "**/dist" },
+              },
             },
             typescript = {
               updateImportsOnFileMove = { enabled = 'always' },
               suggest = {
                 completeFunctionCalls = true,
               },
-              inlayHints = {
-                enumMemberValues = { enabled = true },
-                functionLikeReturnTypes = { enabled = true },
-                parameterNames = { enabled = 'literals' },
-                parameterTypes = { enabled = true },
-                propertyDeclarationTypes = { enabled = true },
-                variableTypes = { enabled = false },
+              preferences = {
+                maxTsServerFileWatcherCount = 5, -- Reduce watchers
               },
             },
           },
         },
-        -- Handle the typingsInstallerPid event
-        handlers = {
-          ['typingsInstallerPid'] = function(err, result, ctx, config)
-            -- Silently ignore this event as it's not critical for functionality
-            return true
-          end,
-        },
         on_attach = function(client, bufnr)
-          -- Disable formatting if you're using prettier or another formatter
+          -- Disable formatting if using prettier
           client.server_capabilities.documentFormattingProvider = false
           client.server_capabilities.documentRangeFormattingProvider = false
         end,
       })
 
-      -- Disable auto-installation for Yarn PnP projects
       vim.notify('Yarn PnP LSP configuration loaded for: ' .. vim.fn.fnamemodify(cwd, ':t'), vim.log.levels.INFO)
     end
   end,
