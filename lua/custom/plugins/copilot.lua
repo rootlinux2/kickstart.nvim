@@ -41,75 +41,53 @@ return {
   },
   {
     'CopilotC-Nvim/CopilotChat.nvim',
-    branch = 'canary',
+    branch = 'main',
     dependencies = {
-      { 'github/copilot.vim' }, -- or zbirenbaum/copilot.lua
-      { 'nvim-lua/plenary.nvim' }, -- for curl, log wrapper
+      'github/copilot.vim',
+      'nvim-lua/plenary.nvim',
     },
-    build = 'make tiktoken', -- Only on MacOS or Linux
-    opts = {
-      debug = false, -- Enable debugging
-      -- See Configuration section for rest
-    },
+    build = 'make tiktoken', -- Only needed on Linux/macOS
+    opts = { debug = false },
     config = function(_, opts)
-      local chat = require('CopilotChat')
-      local select = require('CopilotChat.select')
-      
+      local chat = require('CopilotChat')          -- Correct module name
+      local select = require('CopilotChat.select') -- Correct module name
+
       chat.setup(opts)
-      
-      -- Setup keymaps
-      vim.keymap.set({ 'n', 'v' }, '<leader>cc', function()
-        chat.open()
-      end, { desc = 'Copilot Chat - Open' })
-      
+
+      -- Keymaps
+      vim.keymap.set({ 'n', 'v' }, '<leader>cc', function() chat.open() end, { desc = 'Open Copilot Chat' })
       vim.keymap.set({ 'n', 'v' }, '<leader>ccq', function()
         local input = vim.fn.input('Quick Chat: ')
-        if input ~= '' then
-          chat.ask(input, { selection = select.buffer })
-        end
-      end, { desc = 'Copilot Chat - Quick chat' })
-      
-      vim.keymap.set({ 'n', 'v' }, '<leader>cch', function()
-        local actions = require('CopilotChat.actions')
-        require('CopilotChat.integrations.telescope').pick(actions.help_actions())
-      end, { desc = 'Copilot Chat - Help actions' })
-      
-      vim.keymap.set({ 'n', 'v' }, '<leader>ccp', function()
-        local actions = require('CopilotChat.actions')
-        require('CopilotChat.integrations.telescope').pick(actions.prompt_actions())
-      end, { desc = 'Copilot Chat - Prompt actions' })
+        if input ~= '' then chat.ask(input, { selection = select.buffer }) end
+      end, { desc = 'Quick chat' })
       
       vim.keymap.set('v', '<leader>cce', function()
         chat.ask('Explain how this code works.', { selection = select.visual })
-      end, { desc = 'Copilot Chat - Explain code' })
+      end, { desc = 'Explain code' })
       
       vim.keymap.set('v', '<leader>ccr', function()
         chat.ask('Review this code and suggest improvements.', { selection = select.visual })
-      end, { desc = 'Copilot Chat - Review code' })
+      end, { desc = 'Review code' })
       
       vim.keymap.set('v', '<leader>ccf', function()
         chat.ask('Fix this code.', { selection = select.visual })
-      end, { desc = 'Copilot Chat - Fix code' })
+      end, { desc = 'Fix code' })
       
       vim.keymap.set('v', '<leader>cco', function()
         chat.ask('Optimize this code.', { selection = select.visual })
-      end, { desc = 'Copilot Chat - Optimize code' })
+      end, { desc = 'Optimize code' })
       
       vim.keymap.set('v', '<leader>ccd', function()
         chat.ask('Add documentation for this code.', { selection = select.visual })
-      end, { desc = 'Copilot Chat - Document code' })
+      end, { desc = 'Document code' })
       
       vim.keymap.set('v', '<leader>cct', function()
         chat.ask('Generate tests for this code.', { selection = select.visual })
-      end, { desc = 'Copilot Chat - Generate tests' })
+      end, { desc = 'Generate tests' })
       
-      vim.keymap.set('n', '<leader>ccx', function()
-        chat.close()
-      end, { desc = 'Copilot Chat - Close' })
-      
-      vim.keymap.set('n', '<leader>ccr', function()
-        chat.reset()
-      end, { desc = 'Copilot Chat - Reset' })
+      vim.keymap.set('n', '<leader>ccx', function() chat.close() end, { desc = 'Close Copilot Chat' })
+      vim.keymap.set('n', '<leader>ccr', function() chat.reset() end, { desc = 'Reset Copilot Chat' })
     end,
-  },
+  }
 }
+
