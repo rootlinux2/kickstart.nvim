@@ -21,6 +21,11 @@ return {
           ['t'] = 'open_tabnew',
         },
       },
+      filtered_items = {
+        visible = true, -- 👈 Show hidden files in the tree
+        hide_dotfiles = false, -- 👈 Do not hide dotfiles
+        hide_gitignored = false,
+      },
     },
   },
 }
