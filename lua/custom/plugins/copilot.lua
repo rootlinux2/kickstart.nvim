@@ -16,27 +16,31 @@ return {
       })
 
       vim.keymap.set('i', '<C-H>', '<Plug>(copilot-dismiss)', {
+        replace_keycodes = false,
         desc = 'Dismiss Copilot suggestion',
       })
 
       vim.keymap.set('i', '<C-L>', '<Plug>(copilot-next)', {
+        replace_keycodes = false,
         desc = 'Next Copilot suggestion',
       })
 
       vim.keymap.set('i', '<C-K>', '<Plug>(copilot-previous)', {
+        replace_keycodes = false,
         desc = 'Previous Copilot suggestion',
       })
 
-      -- Disable Copilot for certain filetypes
+      -- Disable Copilot for all filetypes except specific ones
       vim.g.copilot_filetypes = {
-        ['*'] = true,
-        ['gitcommit'] = false,
-        ['markdown'] = false,
-        ['yaml'] = false,
+        ['*'] = false,
+        ['lua'] = true,
+        ['python'] = true,
+        ['javascript'] = true,
+        -- Add other filetypes you want enabled
       }
 
       -- Configure Node.js memory settings for Copilot
-      vim.env.NODE_OPTIONS = (vim.env.NODE_OPTIONS or '') .. ' --max-old-space-size=4096'
+      vim.env.NODE_OPTIONS = (vim.env.NODE_OPTIONS and vim.env.NODE_OPTIONS .. ' ' or '') .. '--max-old-space-size=4096'
     end,
   },
   {
@@ -46,11 +50,14 @@ return {
       'github/copilot.vim',
       'nvim-lua/plenary.nvim',
     },
-    build = 'make tiktoken', -- Only needed on Linux/macOS
-    opts = { debug = false },
+    build = 'make tiktoken', -- Only needed for advanced features (local token counting) on Linux/macOS
+    opts = {
+      debug = false,
+      -- Add more options here if needed
+    },
     config = function(_, opts)
-      local chat = require 'CopilotChat' -- Correct module name
-      local select = require 'CopilotChat.select' -- Correct module name
+      local chat = require 'CopilotChat'
+      local select = require 'CopilotChat.select'
 
       chat.setup(opts)
 
@@ -58,9 +65,10 @@ return {
       vim.keymap.set({ 'n', 'v' }, '<leader>cc', function()
         chat.open()
       end, { desc = 'Open Copilot Chat' })
+
       vim.keymap.set({ 'n', 'v' }, '<leader>ccq', function()
         local input = vim.fn.input 'Quick Chat: '
-        if input ~= '' then
+        if vim.trim(input) ~= '' then
           chat.ask(input, { selection = select.buffer })
         end
       end, { desc = 'Quick chat' })
@@ -69,7 +77,7 @@ return {
         chat.ask('Explain how this code works.', { selection = select.visual })
       end, { desc = 'Explain code' })
 
-      vim.keymap.set('v', '<leader>ccr', function()
+      vim.keymap.set('v', '<leader>ccv', function()
         chat.ask('Review this code and suggest improvements.', { selection = select.visual })
       end, { desc = 'Review code' })
 
@@ -92,6 +100,7 @@ return {
       vim.keymap.set('n', '<leader>ccx', function()
         chat.close()
       end, { desc = 'Close Copilot Chat' })
+
       vim.keymap.set('n', '<leader>ccr', function()
         chat.reset()
       end, { desc = 'Reset Copilot Chat' })
