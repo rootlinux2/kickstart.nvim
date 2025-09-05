@@ -5,6 +5,7 @@ km('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear search highlights' })
 
 -- Diagnostics
 km('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+km("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show LSP error" })
 
 -- Tabs
 km('n', '<leader>tn', ':tabnext<CR>', { desc = 'Next Tab' })
