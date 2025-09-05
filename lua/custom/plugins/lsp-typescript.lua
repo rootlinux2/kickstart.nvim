@@ -44,9 +44,15 @@ return {
 
         -- TypeScript-specific keymaps (only for ts_ls)
         if client.name == "ts_ls" then
-          bufmap("n", "<leader>oi", ts.organize_imports, "Organize Imports")
-          bufmap("n", "<leader>ru", ts.remove_unused, "Remove unused")
-          bufmap("n", "<leader>rf", ts.rename_file, "Rename file")
+          if ts.organize_imports then
+            bufmap("n", "<leader>oi", ts.organize_imports, "Organize Imports")
+          end
+          if ts.remove_unused then
+            bufmap("n", "<leader>ru", ts.remove_unused, "Remove unused")
+          end
+          if ts.rename_file then
+            bufmap("n", "<leader>rf", ts.rename_file, "Rename file")
+          end
         end
       end
 
