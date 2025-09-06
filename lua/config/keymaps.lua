@@ -31,10 +31,9 @@ km('n', '<C-k>', '<C-w><C-k>', { desc = 'Upper window' })
 
 -- Terminal
 
--- Exit terminal mode
+-- Exit terminal mode (alternative binding)
 km('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
--- Open floating terminal
-km('n', '<leader>t', ':lua require("FTerm").toggle()<CR>', { desc = 'Toggle floating terminal' })
+-- Note: <leader>t for floating terminal is configured in lazy.lua FTerm plugin
 
 -- Additional Git keymaps (gitsigns keymaps are in lazygit.lua)
 km('n', '<leader>gl', '<cmd>Git log --oneline<CR>', { desc = 'Git log' })
