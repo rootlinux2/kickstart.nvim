@@ -33,3 +33,25 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
   end,
 })
+
+-- .env file support
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  group = vim.api.nvim_create_augroup('env_files', { clear = true }),
+  pattern = { "*.env*", ".env*" },
+  callback = function()
+    vim.bo.filetype = "sh"
+    
+    -- Add basic .env syntax highlighting
+    vim.cmd([[
+      syntax match envComment "^#.*$"
+      syntax match envKey "^[A-Za-z_][A-Za-z0-9_]*"
+      syntax match envEquals "="
+      syntax match envValue "=.*$"
+      
+      highlight def link envComment Comment
+      highlight def link envKey Identifier
+      highlight def link envEquals Operator
+      highlight def link envValue String
+    ]])
+  end,
+})

@@ -274,6 +274,22 @@ km('n', '<C-u>', '<C-u>zz', { desc = 'Half page up (centered)' })
 -- Toggle line wrapping
 km('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = '[T]oggle line [W]rap' })
 
+-- Node.js/TypeScript specific keymaps
+km('n', '<leader>nr', '<cmd>!npm run<CR>', { desc = '[N]pm [R]un script' })
+km('n', '<leader>ni', '<cmd>!npm install<CR>', { desc = '[N]pm [I]nstall' })
+km('n', '<leader>nt', '<cmd>!npm test<CR>', { desc = '[N]pm [T]est' })
+km('n', '<leader>nb', '<cmd>!npm run build<CR>', { desc = '[N]pm [B]uild' })
+km('n', '<leader>nd', '<cmd>!npm run dev<CR>', { desc = '[N]pm [D]ev' })
+km('n', '<leader>ns', '<cmd>!npm start<CR>', { desc = '[N]pm [S]tart' })
+
+-- Yarn alternatives
+km('n', '<leader>yr', '<cmd>!yarn run<CR>', { desc = '[Y]arn [R]un script' })
+km('n', '<leader>yi', '<cmd>!yarn install<CR>', { desc = '[Y]arn [I]nstall' })
+km('n', '<leader>yt', '<cmd>!yarn test<CR>', { desc = '[Y]arn [T]est' })
+km('n', '<leader>yb', '<cmd>!yarn build<CR>', { desc = '[Y]arn [B]uild' })
+km('n', '<leader>yd', '<cmd>!yarn dev<CR>', { desc = '[Y]arn [D]ev' })
+km('n', '<leader>ys', '<cmd>!yarn start<CR>', { desc = '[Y]arn [S]tart' })
+
 -- LSP diagnostic navigation
 km('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
 km('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })

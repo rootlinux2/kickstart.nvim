@@ -14,7 +14,17 @@ return {
     dependencies = { "williamboman/mason.nvim" },
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "ts_ls" },
+        ensure_installed = { 
+          "ts_ls",           -- TypeScript/JavaScript
+          "eslint",          -- ESLint
+          "jsonls",          -- JSON
+          "html",            -- HTML
+          "cssls",           -- CSS
+          "prismals",        -- Prisma
+          "graphql",         -- GraphQL
+          "dockerls",        -- Docker
+          "yamlls",          -- YAML
+        },
       })
     end,
   },
