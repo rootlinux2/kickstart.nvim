@@ -17,6 +17,12 @@ km('n', '<A-k>', ':m .-2<CR>==', { desc = 'Move line up' })
 km('v', '<A-j>', ":m '>+1<CR>gv=gv", { desc = 'Move selection down' })
 km('v', '<A-k>', ":m '<-2<CR>gv=gv", { desc = 'Move selection up' })
 
+-- Move between buffers
+km('n', '<S-l>', ':bnext<CR>', { desc = 'Next buffer' })
+km('n', '<S-h>', ':bprevious<CR>', { desc = 'Previous buffer' })
+km('n', '<leader>bd', ':bdelete<CR>', { desc = 'Delete current buffer' })
+km('n', '<leader>bl', ':ls<CR>', { desc = 'list all buffers' })
+
 -- Window navigation
 km('n', '<C-h>', '<C-w><C-h>', { desc = 'Left window' })
 km('n', '<C-l>', '<C-w><C-l>', { desc = 'Right window' })
@@ -24,7 +30,13 @@ km('n', '<C-j>', '<C-w><C-j>', { desc = 'Lower window' })
 km('n', '<C-k>', '<C-w><C-k>', { desc = 'Upper window' })
 
 -- Terminal
+
+-- Exit terminal mode
 km('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+-- Open floating terminal
+km('n', '<leader>t', ':lua require("FTerm").toggle()<CR>', { desc = 'Toggle floating terminal' })
+
+
 
 -- Git Blame
 km('n', '<leader>gb', function()
@@ -47,4 +59,14 @@ km('n', '<leader>f', function()
     vim.lsp.buf.format({ async = true })
   end
 end, { desc = 'Format current file' })
+
+-- Copy full file path to clipboard
+-- Usage: <leader>y in normal mode
+--
+km('n', '<leader>y', function()
+  local file_path = vim.fn.expand('%:p')
+  vim.fn.setreg('+', file_path)
+  print('Copied to clipboard: ' .. file_path)
+end, { desc = 'Copy full file path to clipboard' })
+
 

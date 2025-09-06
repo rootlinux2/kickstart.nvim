@@ -14,7 +14,24 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Plugins
 require('lazy').setup {
-
+  -- FTerm
+  {
+    'numToStr/FTerm.nvim',
+    opts = {
+      border = 'rounded',
+      dimensions = { height = 0.8, width = 0.8 },
+    },
+    config = function(_, opts)
+      require('FTerm').setup(opts)
+      vim.api.nvim_create_autocmd('TermOpen', {
+        pattern = 'FTerm_*',
+        callback = function(args)
+          vim.bo[args.buf].modifiable = true
+        end,
+      })
+      vim.keymap.set('n', '<leader>t', ':lua require("FTerm").toggle()<CR>', { desc = 'Toggle floating terminal' })
+    end,
+  },
   -- Git
   {
     'lewis6991/gitsigns.nvim',
@@ -76,5 +93,4 @@ require('lazy').setup {
   { import = 'kickstart.plugins' }, -- Import plugins from the custom directory
   { import = 'custom.plugins' }, -- Import plugins from the custom directory
   --
-
 }
