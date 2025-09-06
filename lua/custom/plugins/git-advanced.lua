@@ -2,17 +2,16 @@
 return {
   -- Git commit emoji picker
   {
-    'https://github.com/yosipy/nvim-gitmoji',
+    'olacin/telescope-gitmoji.nvim',
+    dependencies = { 
+      'nvim-telescope/telescope.nvim',
+      'nvim-lua/plenary.nvim'
+    },
     keys = {
-      { '<leader>gce', '<cmd>Gitmoji<CR>', desc = 'Git commit with emoji' },
+      { '<leader>gce', '<cmd>Telescope gitmoji<CR>', desc = 'Git commit with emoji' },
     },
     config = function()
-      require('gitmoji').setup({
-        -- Default template for gitmoji commits
-        template = "{{gitmoji}} {{type}}{{scope}}: {{message}}",
-        -- Mapping for gitmoji commit
-        mapping = '<leader>gce',
-      })
+      require('telescope').load_extension('gitmoji')
     end,
   },
 
