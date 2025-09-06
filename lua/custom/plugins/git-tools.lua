@@ -28,6 +28,8 @@ return {
       { '<leader>gbf', '<cmd>Telescope git_bcommits<CR>', desc = 'Git Buffer Commits' },
       { '<leader>gst', '<cmd>Telescope git_status<CR>', desc = 'Git Status' },
       { '<leader>gsh', '<cmd>Telescope git_stash<CR>', desc = 'Git Stash' },
+      { '<leader>sgc', '<cmd>Telescope git_commits<CR>', desc = '[S]earch [G]it [C]ommits' },
+      { '<leader>sgb', '<cmd>Telescope git_branches<CR>', desc = '[S]earch [G]it [B]ranches' },
     },
   },
 

@@ -14,6 +14,7 @@ return {
     },
     keys = {
       { '<leader>gg', '<cmd>LazyGit<CR>', desc = 'Open LazyGit' },
+      { '<leader>lg', '<cmd>LazyGit<CR>', desc = 'Open LazyGit' },
       { '<leader>gc', '<cmd>LazyGitCurrentFile<CR>', desc = 'LazyGit current file' },
       { '<leader>gf', '<cmd>LazyGitFilter<CR>', desc = 'LazyGit filter commits' },
       { '<leader>gF', '<cmd>LazyGitFilterCurrentFile<CR>', desc = 'LazyGit filter current file' },

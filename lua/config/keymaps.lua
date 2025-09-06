@@ -39,6 +39,24 @@ km('n', '<leader>t', ':lua require("FTerm").toggle()<CR>', { desc = 'Toggle floa
 -- Additional Git keymaps (gitsigns keymaps are in lazygit.lua)
 km('n', '<leader>gl', '<cmd>Git log --oneline<CR>', { desc = 'Git log' })
 km('n', '<leader>gs', '<cmd>Git status<CR>', { desc = 'Git status' })
+km('n', '<leader>gp', '<cmd>Git push<CR>', { desc = 'Git push' })
+km('n', '<leader>gP', '<cmd>Git pull<CR>', { desc = 'Git pull' })
+km('n', '<leader>gft', '<cmd>Git fetch<CR>', { desc = 'Git fetch' })
+km('n', '<leader>ga', '<cmd>Git add %<CR>', { desc = 'Git add current file' })
+km('n', '<leader>gA', '<cmd>Git add .<CR>', { desc = 'Git add all' })
+km('n', '<leader>gco', '<cmd>Git checkout ', { desc = 'Git checkout' })
+km('n', '<leader>gcb', '<cmd>Git checkout -b ', { desc = 'Git checkout new branch' })
+km('n', '<leader>gm', '<cmd>Git merge ', { desc = 'Git merge' })
+
+-- Quick git commands
+km('n', '<leader>gq', function()
+  vim.ui.input({ prompt = 'Quick commit message: ' }, function(input)
+    if input and input ~= '' then
+      vim.cmd('Git add .')
+      vim.cmd('Git commit -m "' .. input .. '"')
+    end
+  end)
+end, { desc = 'Quick git commit' })
 
 -- Telescope
 local builtin = require('telescope.builtin')
