@@ -87,13 +87,13 @@ end, { desc = 'Copy full file path to clipboard' })
 -- UI and Theme toggles
 km('n', '<leader>tt', '<cmd>TransparencyToggle<CR>', { desc = '[T]oggle [T]ransparency' })
 km('n', '<leader>tc', function()
-  -- Cycle through different colorschemes
+  -- Cycle through different colorschemes (only those that are available)
   local colorschemes = {
     'github_dark_default',
     'github_dark_dimmed',
     'github_dark_high_contrast',
-    'tokyonight-storm',
-    'catppuccin-mocha'
+    'github_light_default',
+    'github_light_high_contrast',
   }
   local current = vim.g.colors_name or 'github_dark_default'
   local current_index = 1
@@ -108,9 +108,88 @@ km('n', '<leader>tc', function()
   local next_index = (current_index % #colorschemes) + 1
   local next_scheme = colorschemes[next_index]
   
-  vim.cmd('colorscheme ' .. next_scheme)
-  print('Switched to colorscheme: ' .. next_scheme)
+  -- Check if the colorscheme exists before trying to apply it
+  local ok, _ = pcall(vim.cmd, 'colorscheme ' .. next_scheme)
+  if ok then
+    print('Switched to colorscheme: ' .. next_scheme)
+  else
+    print('Colorscheme not found: ' .. next_scheme)
+    -- Fallback to default
+    vim.cmd('colorscheme github_dark_default')
+    print('Switched to fallback colorscheme: github_dark_default')
+  end
 end, { desc = '[T]oggle [C]olorscheme' })
+
+-- Enable additional themes (TokyoNight and Catppuccin)
+km('n', '<leader>tE', function()
+  vim.ui.select(
+    { 'TokyoNight', 'Catppuccin', 'Both' },
+    { prompt = 'Enable additional themes:' },
+    function(choice)
+      if choice == 'TokyoNight' or choice == 'Both' then
+        require('lazy').load({ plugins = { 'tokyonight.nvim' } })
+        print('TokyoNight theme enabled!')
+      end
+      if choice == 'Catppuccin' or choice == 'Both' then
+        require('lazy').load({ plugins = { 'catppuccin' } })
+        print('Catppuccin theme enabled!')
+      end
+      if choice then
+        print('Use <leader>tc to cycle through available themes')
+      end
+    end
+  )
+end, { desc = '[T]heme [E]nable additional themes' })
+
+-- Enhanced colorscheme cycling that includes enabled themes
+km('n', '<leader>tC', function()
+  -- Get all available colorschemes dynamically
+  local all_schemes = vim.fn.getcompletion('', 'color')
+  local preferred_schemes = {
+    'github_dark_default',
+    'github_dark_dimmed', 
+    'github_dark_high_contrast',
+    'github_light_default',
+    'tokyonight-storm',
+    'tokyonight-moon',
+    'tokyonight-night',
+    'catppuccin-mocha',
+    'catppuccin-macchiato',
+    'catppuccin-frappe',
+    'catppuccin-latte',
+  }
+  
+  -- Filter to only include available schemes
+  local available_schemes = {}
+  for _, scheme in ipairs(preferred_schemes) do
+    for _, available in ipairs(all_schemes) do
+      if available == scheme then
+        table.insert(available_schemes, scheme)
+        break
+      end
+    end
+  end
+  
+  if #available_schemes == 0 then
+    available_schemes = { 'github_dark_default' }
+  end
+  
+  local current = vim.g.colors_name or 'github_dark_default'
+  local current_index = 1
+  
+  for i, scheme in ipairs(available_schemes) do
+    if scheme == current then
+      current_index = i
+      break
+    end
+  end
+  
+  local next_index = (current_index % #available_schemes) + 1
+  local next_scheme = available_schemes[next_index]
+  
+  vim.cmd('colorscheme ' .. next_scheme)
+  print('Switched to colorscheme: ' .. next_scheme .. ' (' .. current_index .. '/' .. #available_schemes .. ')')
+end, { desc = '[T]heme [C]ycle (all available)' })
 
 -- Window and buffer management improvements
 km('n', '<leader>w-', '<cmd>split<CR>', { desc = 'Split window horizontally' })
