@@ -5,7 +5,27 @@ km('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear search highlights' })
 
 -- Diagnostics
 km('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-km("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show LSP error" })
+km("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Show LSP diagnostic" })
+
+-- File manager (Yazi) keymaps with plugin integration
+local yazi_setup = require('config.yazi-setup')
+
+km('n', '<leader>e', function()
+  yazi_setup.open_yazi()
+end, { desc = 'Open file manager (Yazi)' })
+
+km('n', '<C-n>', function()
+  yazi_setup.open_yazi()
+end, { desc = 'Open file manager (Yazi)' })
+
+km('n', '<leader>E', function()
+  yazi_setup.open_yazi('cwd')
+end, { desc = 'Open Yazi in working directory' })
+
+-- Add a keymap to check Yazi plugin status
+km('n', '<leader>yi', function()
+  yazi_setup.setup()
+end, { desc = 'Check Yazi plugin status' })
 
 -- Tabs
 km('n', '<leader>tn', ':tabnext<CR>', { desc = 'Next Tab' })
@@ -40,7 +60,7 @@ km('n', '<leader>gl', '<cmd>Git log --oneline<CR>', { desc = 'Git log' })
 km('n', '<leader>gs', '<cmd>Git status<CR>', { desc = 'Git status' })
 km('n', '<leader>gp', '<cmd>Git push<CR>', { desc = 'Git push' })
 km('n', '<leader>gP', '<cmd>Git pull<CR>', { desc = 'Git pull' })
-km('n', '<leader>gft', '<cmd>Git fetch<CR>', { desc = 'Git fetch' })
+km('n', '<leader>gf', '<cmd>Git fetch<CR>', { desc = 'Git fetch' })
 km('n', '<leader>ga', '<cmd>Git add %<CR>', { desc = 'Git add current file' })
 km('n', '<leader>gA', '<cmd>Git add .<CR>', { desc = 'Git add all' })
 km('n', '<leader>gco', '<cmd>Git checkout ', { desc = 'Git checkout' })
@@ -66,7 +86,7 @@ km('n', '<leader>fb', builtin.buffers,    { desc = "Find buffers" })
 km('n', '<leader>fh', builtin.help_tags,  { desc = "Find help" })
 
 -- Formatter
-km('n', '<leader>f', function()
+km('n', '<leader>cf', function()
   if vim.bo.filetype == 'lua' then
     vim.cmd('!stylua %')
   else
