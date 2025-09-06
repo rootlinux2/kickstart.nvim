@@ -36,12 +36,9 @@ km('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 -- Open floating terminal
 km('n', '<leader>t', ':lua require("FTerm").toggle()<CR>', { desc = 'Toggle floating terminal' })
 
-
-
--- Git Blame
-km('n', '<leader>gb', function()
-  require('gitsigns').blame_line { full = true }
-end, { desc = 'Git Blame Line' })
+-- Additional Git keymaps (gitsigns keymaps are in lazygit.lua)
+km('n', '<leader>gl', '<cmd>Git log --oneline<CR>', { desc = 'Git log' })
+km('n', '<leader>gs', '<cmd>Git status<CR>', { desc = 'Git status' })
 
 -- Telescope
 local builtin = require('telescope.builtin')
