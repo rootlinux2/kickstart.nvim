@@ -7,8 +7,15 @@ km('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear search highlights' })
 km('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 km("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Show LSP diagnostic" })
 
--- File manager (Yazi) keymaps with plugin integration
-local yazi_setup = require('config.yazi-setup')
+-- File manager (Yazi) keymaps with enhanced error handling
+local yazi_setup_ok, yazi_setup = pcall(require, 'config.yazi-setup')
+if not yazi_setup_ok then
+  vim.notify("Yazi setup module not found", vim.log.levels.WARN)
+  yazi_setup = {
+    open_yazi = function() vim.notify("Yazi not configured", vim.log.levels.WARN) end,
+    setup = function() vim.notify("Yazi not configured", vim.log.levels.WARN) end
+  }
+end
 
 km('n', '<leader>e', function()
   yazi_setup.open_yazi()
@@ -24,8 +31,13 @@ end, { desc = 'Open Yazi in working directory' })
 
 -- Add a keymap to check Yazi plugin status
 km('n', '<leader>yi', function()
-  yazi_setup.setup()
-end, { desc = 'Check Yazi plugin status' })
+  local yazi_setup = require('config.yazi-setup')
+  if not yazi_setup.check_yazi_binary() then
+    yazi_setup.show_install_instructions()
+  else
+    yazi_setup.setup()
+  end
+end, { desc = 'Check Yazi installation and show setup instructions' })
 
 -- Tabs
 km('n', '<leader>tn', ':tabnext<CR>', { desc = 'Next Tab' })
@@ -78,12 +90,18 @@ km('n', '<leader>gq', function()
 end, { desc = 'Quick git commit' })
 
 -- Telescope
-local builtin = require('telescope.builtin')
-
-km('n', '<leader>ff', builtin.find_files, { desc = "Find files" })
-km('n', '<leader>fg', builtin.live_grep,  { desc = "Live grep project" })
-km('n', '<leader>fb', builtin.buffers,    { desc = "Find buffers" })
-km('n', '<leader>fh', builtin.help_tags,  { desc = "Find help" })
+local telescope_ok, builtin = pcall(require, 'telescope.builtin')
+if telescope_ok then
+  km('n', '<leader>ff', builtin.find_files, { desc = "Find files" })
+  km('n', '<leader>fg', builtin.live_grep,  { desc = "Live grep project" })
+  km('n', '<leader>fb', builtin.buffers,    { desc = "Find buffers" })
+  km('n', '<leader>fh', builtin.help_tags,  { desc = "Find help" })
+else
+  km('n', '<leader>ff', function() vim.notify("Telescope not available", vim.log.levels.WARN) end, { desc = "Find files (Telescope not loaded)" })
+  km('n', '<leader>fg', function() vim.notify("Telescope not available", vim.log.levels.WARN) end, { desc = "Live grep (Telescope not loaded)" })
+  km('n', '<leader>fb', function() vim.notify("Telescope not available", vim.log.levels.WARN) end, { desc = "Find buffers (Telescope not loaded)" })
+  km('n', '<leader>fh', function() vim.notify("Telescope not available", vim.log.levels.WARN) end, { desc = "Find help (Telescope not loaded)" })
+end
 
 -- Formatter
 km('n', '<leader>cf', function()

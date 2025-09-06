@@ -14,7 +14,13 @@ return {
     { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
   },
   opts = {
+    close_if_last_window = false, -- Don't close Neo-tree if it's the last window
+    popup_border_style = "rounded",
+    enable_git_status = true,
+    enable_diagnostics = true,
+    -- Disable netrw hijacking to avoid conflicts with yazi
     filesystem = {
+      hijack_netrw_behavior = "disabled",
       window = {
         mappings = {
           ['\\'] = 'close_window',

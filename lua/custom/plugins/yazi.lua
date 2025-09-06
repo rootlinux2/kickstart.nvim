@@ -5,10 +5,13 @@ return {
     -- these will be managed in keymaps.lua instead
   },
   opts = {
-    -- open yazi instead of netrw, see below for more ways to configure
-    open_for_directories = true,
+    -- Don't open yazi for directories to avoid conflicts with neo-tree
+    open_for_directories = false,
     keymaps = {
       show_help = '<f1>',
     },
+    -- Use floating window to avoid window conflicts
+    floating_window_scaling_factor = 0.9,
+    yazi_floating_window_winblend = 0,
   },
 }
