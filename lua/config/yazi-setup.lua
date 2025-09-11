@@ -2,11 +2,11 @@ local M = {}
 
 -- Check if yazi binary is available in PATH
 function M.check_yazi_binary()
-  local handle = io.popen("which yazi 2>/dev/null")
+  local handle = io.popen 'which yazi 2>/dev/null'
   if handle then
-    local result = handle:read("*a")
+    local result = handle:read '*a'
     handle:close()
-    return result and result ~= ""
+    return result and result ~= ''
   end
   return false
 end
@@ -14,28 +14,28 @@ end
 -- Check if ya CLI utility is available in PATH (required for Neovim integration)
 function M.check_ya_binary()
   -- First try normal PATH
-  local handle = io.popen("which ya 2>/dev/null")
+  local handle = io.popen 'which ya 2>/dev/null'
   if handle then
-    local result = handle:read("*a")
+    local result = handle:read '*a'
     handle:close()
-    if result and result ~= "" then
+    if result and result ~= '' then
       return true
     end
   end
-  
+
   -- If not found, try cargo bin directory directly
-  local cargo_ya = os.getenv("HOME") .. "/.cargo/bin/ya"
-  local file = io.open(cargo_ya, "r")
+  local cargo_ya = os.getenv 'HOME' .. '/.cargo/bin/ya'
+  local file = io.open(cargo_ya, 'r')
   if file then
     file:close()
     -- Add cargo bin to PATH if ya exists there
-    local current_path = os.getenv("PATH") or ""
-    if not string.match(current_path, "%.cargo/bin") then
-      vim.env.PATH = os.getenv("HOME") .. "/.cargo/bin:" .. current_path
+    local current_path = os.getenv 'PATH' or ''
+    if not string.match(current_path, '%.cargo/bin') then
+      vim.env.PATH = os.getenv 'HOME' .. '/.cargo/bin:' .. current_path
     end
     return true
   end
-  
+
   return false
 end
 
@@ -73,8 +73,8 @@ RECOMMENDED (fastest):
 After installation, run: source ~/.bashrc && nvim
 Then try <leader>e again.
 ]]
-  
-  vim.notify(install_msg, vim.log.levels.WARN, { title = "Yazi Installation - Ubuntu 24.04" })
+
+  vim.notify(install_msg, vim.log.levels.WARN, { title = 'Yazi Installation - Ubuntu 24.04' })
 end
 
 -- Open Yazi using the plugin
@@ -84,20 +84,20 @@ function M.open_yazi(path)
     M.show_install_instructions()
     return
   end
-  
+
   -- Check if ya CLI utility exists (required for integration)
   if not M.check_ya_binary() then
     vim.notify("Yazi found but 'ya' CLI utility missing. Install via: cargo install --locked yazi-cli", vim.log.levels.WARN)
     return
   end
-  
+
   -- Then check if plugin is loaded
   local yazi = M.check_yazi_plugin()
   if not yazi then
-    vim.notify("Yazi plugin not loaded. Try :Lazy load yazi.nvim", vim.log.levels.WARN)
+    vim.notify('Yazi plugin not loaded. Try :Lazy load yazi.nvim', vim.log.levels.WARN)
     return
   end
-  
+
   -- Use pcall to catch any errors
   local ok, err = pcall(function()
     if path == 'cwd' then
@@ -106,9 +106,9 @@ function M.open_yazi(path)
       yazi.yazi()
     end
   end)
-  
+
   if not ok then
-    vim.notify("Error opening yazi: " .. tostring(err) .. "\nTry running :checkhealth yazi", vim.log.levels.ERROR)
+    vim.notify('Error opening yazi: ' .. tostring(err) .. '\nTry running :checkhealth yazi', vim.log.levels.ERROR)
   end
 end
 
@@ -116,22 +116,22 @@ end
 function M.setup()
   -- Check binaries first
   if not M.check_yazi_binary() then
-    vim.notify("Yazi binary not found in PATH. Use <leader>yi for installation instructions.", vim.log.levels.WARN, { title = "Yazi Setup" })
+    vim.notify('Yazi binary not found in PATH. Use <leader>yi for installation instructions.', vim.log.levels.WARN, { title = 'Yazi Setup' })
     return false
   end
-  
+
   if not M.check_ya_binary() then
-    vim.notify("Yazi found but 'ya' CLI utility missing. Install via: cargo install --locked yazi-cli", vim.log.levels.WARN, { title = "Yazi Setup" })
+    vim.notify("Yazi found but 'ya' CLI utility missing. Install via: cargo install --locked yazi-cli", vim.log.levels.WARN, { title = 'Yazi Setup' })
     return false
   end
-  
+
   -- Then check plugin
   local yazi = M.check_yazi_plugin()
   if yazi then
-    vim.notify("Yazi plugin and both binaries (yazi + ya) are ready! 🚀", vim.log.levels.INFO, { title = "Yazi Setup" })
+    --   vim.notify("Yazi plugin and both binaries (yazi + ya) are ready! 🚀", vim.log.levels.INFO, { title = "Yazi Setup" })
     return true
   else
-    vim.notify("Yazi binaries found, but plugin not loaded. Try :Lazy load yazi.nvim", vim.log.levels.WARN)
+    vim.notify('Yazi binaries found, but plugin not loaded. Try :Lazy load yazi.nvim', vim.log.levels.WARN)
     return false
   end
 end

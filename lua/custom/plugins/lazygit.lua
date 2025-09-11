@@ -13,11 +13,27 @@ return {
       'nvim-lua/plenary.nvim',
     },
     keys = {
-      { '<leader>gg', '<cmd>LazyGit<CR>', desc = 'Open LazyGit' },
-      { '<leader>lg', '<cmd>LazyGit<CR>', desc = 'Open LazyGit' },
-      { '<leader>gc', '<cmd>LazyGitCurrentFile<CR>', desc = 'LazyGit current file' },
-      { '<leader>gf', '<cmd>LazyGitFilter<CR>', desc = 'LazyGit filter commits' },
-      { '<leader>gF', '<cmd>LazyGitFilterCurrentFile<CR>', desc = 'LazyGit filter current file' },
+      { '<leader>ggg', function()
+          vim.cmd('tabnew')
+          vim.cmd('enew')
+          vim.cmd('LazyGit')
+        end, desc = 'Open LazyGit (new tab)' },
+      { '<leader>lg', function()
+          vim.cmd('enew')
+          vim.cmd('LazyGit')
+        end, desc = 'Open LazyGit' },
+      { '<leader>gc', function()
+          vim.cmd('enew')
+          vim.cmd('LazyGitCurrentFile')
+        end, desc = 'LazyGit current file' },
+      { '<leader>gf', function()
+          vim.cmd('enew')
+          vim.cmd('LazyGitFilter')
+        end, desc = 'LazyGit filter commits' },
+      { '<leader>gF', function()
+          vim.cmd('enew')
+          vim.cmd('LazyGitFilterCurrentFile')
+        end, desc = 'LazyGit filter current file' },
     },
     config = function()
       -- LazyGit configuration
