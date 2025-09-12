@@ -5,15 +5,20 @@ km('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear search highlights' })
 
 -- Diagnostics
 km('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-km("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Show LSP diagnostic" })
+
+km('n', '<leader>cd', vim.diagnostic.open_float, { desc = 'Show LSP diagnostic' })
 
 -- File manager (Yazi) keymaps with enhanced error handling
 local yazi_setup_ok, yazi_setup = pcall(require, 'config.yazi-setup')
 if not yazi_setup_ok then
-  vim.notify("Yazi setup module not found", vim.log.levels.WARN)
+  vim.notify('Yazi setup module not found', vim.log.levels.WARN)
   yazi_setup = {
-    open_yazi = function() vim.notify("Yazi not configured", vim.log.levels.WARN) end,
-    setup = function() vim.notify("Yazi not configured", vim.log.levels.WARN) end
+    open_yazi = function()
+      vim.notify('Yazi not configured', vim.log.levels.WARN)
+    end,
+    setup = function()
+      vim.notify('Yazi not configured', vim.log.levels.WARN)
+    end,
   }
 end
 
@@ -26,12 +31,12 @@ km('n', '<C-n>', function()
 end, { desc = 'Open file manager (Yazi)' })
 
 km('n', '<leader>E', function()
-  yazi_setup.open_yazi('cwd')
+  yazi_setup.open_yazi 'cwd'
 end, { desc = 'Open Yazi in working directory' })
 
 -- Add a keymap to check Yazi plugin status
 km('n', '<leader>yi', function()
-  local yazi_setup = require('config.yazi-setup')
+  local yazi_setup = require 'config.yazi-setup'
   if not yazi_setup.check_yazi_binary() then
     yazi_setup.show_install_instructions()
   else
@@ -83,7 +88,7 @@ km('n', '<leader>gm', '<cmd>Git merge ', { desc = 'Git merge' })
 km('n', '<leader>gq', function()
   vim.ui.input({ prompt = 'Quick commit message: ' }, function(input)
     if input and input ~= '' then
-      vim.cmd('Git add .')
+      vim.cmd 'Git add .'
       vim.cmd('Git commit -m "' .. input .. '"')
     end
   end)
@@ -92,23 +97,31 @@ end, { desc = 'Quick git commit' })
 -- Telescope
 local telescope_ok, builtin = pcall(require, 'telescope.builtin')
 if telescope_ok then
-  km('n', '<leader>ff', builtin.find_files, { desc = "Find files" })
-  km('n', '<leader>fg', builtin.live_grep,  { desc = "Live grep project" })
-  km('n', '<leader>fb', builtin.buffers,    { desc = "Find buffers" })
-  km('n', '<leader>fh', builtin.help_tags,  { desc = "Find help" })
+  km('n', '<leader>ff', builtin.find_files, { desc = 'Find files' })
+  km('n', '<leader>fg', builtin.live_grep, { desc = 'Live grep project' })
+  km('n', '<leader>fb', builtin.buffers, { desc = 'Find buffers' })
+  km('n', '<leader>fh', builtin.help_tags, { desc = 'Find help' })
 else
-  km('n', '<leader>ff', function() vim.notify("Telescope not available", vim.log.levels.WARN) end, { desc = "Find files (Telescope not loaded)" })
-  km('n', '<leader>fg', function() vim.notify("Telescope not available", vim.log.levels.WARN) end, { desc = "Live grep (Telescope not loaded)" })
-  km('n', '<leader>fb', function() vim.notify("Telescope not available", vim.log.levels.WARN) end, { desc = "Find buffers (Telescope not loaded)" })
-  km('n', '<leader>fh', function() vim.notify("Telescope not available", vim.log.levels.WARN) end, { desc = "Find help (Telescope not loaded)" })
+  km('n', '<leader>ff', function()
+    vim.notify('Telescope not available', vim.log.levels.WARN)
+  end, { desc = 'Find files (Telescope not loaded)' })
+  km('n', '<leader>fg', function()
+    vim.notify('Telescope not available', vim.log.levels.WARN)
+  end, { desc = 'Live grep (Telescope not loaded)' })
+  km('n', '<leader>fb', function()
+    vim.notify('Telescope not available', vim.log.levels.WARN)
+  end, { desc = 'Find buffers (Telescope not loaded)' })
+  km('n', '<leader>fh', function()
+    vim.notify('Telescope not available', vim.log.levels.WARN)
+  end, { desc = 'Find help (Telescope not loaded)' })
 end
 
 -- Formatter
 km('n', '<leader>cf', function()
   if vim.bo.filetype == 'lua' then
-    vim.cmd('!stylua %')
+    vim.cmd '!stylua %'
   else
-    vim.lsp.buf.format({ async = true })
+    vim.lsp.buf.format { async = true }
   end
 end, { desc = 'Format current file' })
 
@@ -116,7 +129,7 @@ end, { desc = 'Format current file' })
 -- Usage: <leader>y in normal mode
 --
 km('n', '<leader>y', function()
-  local file_path = vim.fn.expand('%:p')
+  local file_path = vim.fn.expand '%:p'
   vim.fn.setreg('+', file_path)
   print('Copied to clipboard: ' .. file_path)
 end, { desc = 'Copy full file path to clipboard' })
@@ -134,17 +147,17 @@ km('n', '<leader>tc', function()
   }
   local current = vim.g.colors_name or 'github_dark_default'
   local current_index = 1
-  
+
   for i, scheme in ipairs(colorschemes) do
     if scheme == current then
       current_index = i
       break
     end
   end
-  
+
   local next_index = (current_index % #colorschemes) + 1
   local next_scheme = colorschemes[next_index]
-  
+
   -- Check if the colorscheme exists before trying to apply it
   local ok, _ = pcall(vim.cmd, 'colorscheme ' .. next_scheme)
   if ok then
@@ -152,30 +165,26 @@ km('n', '<leader>tc', function()
   else
     print('Colorscheme not found: ' .. next_scheme)
     -- Fallback to default
-    vim.cmd('colorscheme github_dark_default')
-    print('Switched to fallback colorscheme: github_dark_default')
+    vim.cmd 'colorscheme github_dark_default'
+    print 'Switched to fallback colorscheme: github_dark_default'
   end
 end, { desc = '[T]oggle [C]olorscheme' })
 
 -- Enable additional themes (TokyoNight and Catppuccin)
 km('n', '<leader>tE', function()
-  vim.ui.select(
-    { 'TokyoNight', 'Catppuccin', 'Both' },
-    { prompt = 'Enable additional themes:' },
-    function(choice)
-      if choice == 'TokyoNight' or choice == 'Both' then
-        require('lazy').load({ plugins = { 'tokyonight.nvim' } })
-        print('TokyoNight theme enabled!')
-      end
-      if choice == 'Catppuccin' or choice == 'Both' then
-        require('lazy').load({ plugins = { 'catppuccin' } })
-        print('Catppuccin theme enabled!')
-      end
-      if choice then
-        print('Use <leader>tc to cycle through available themes')
-      end
+  vim.ui.select({ 'TokyoNight', 'Catppuccin', 'Both' }, { prompt = 'Enable additional themes:' }, function(choice)
+    if choice == 'TokyoNight' or choice == 'Both' then
+      require('lazy').load { plugins = { 'tokyonight.nvim' } }
+      print 'TokyoNight theme enabled!'
     end
-  )
+    if choice == 'Catppuccin' or choice == 'Both' then
+      require('lazy').load { plugins = { 'catppuccin' } }
+      print 'Catppuccin theme enabled!'
+    end
+    if choice then
+      print 'Use <leader>tc to cycle through available themes'
+    end
+  end)
 end, { desc = '[T]heme [E]nable additional themes' })
 
 -- Enhanced colorscheme cycling that includes enabled themes
@@ -184,7 +193,7 @@ km('n', '<leader>tC', function()
   local all_schemes = vim.fn.getcompletion('', 'color')
   local preferred_schemes = {
     'github_dark_default',
-    'github_dark_dimmed', 
+    'github_dark_dimmed',
     'github_dark_high_contrast',
     'github_light_default',
     'tokyonight-storm',
@@ -195,7 +204,7 @@ km('n', '<leader>tC', function()
     'catppuccin-frappe',
     'catppuccin-latte',
   }
-  
+
   -- Filter to only include available schemes
   local available_schemes = {}
   for _, scheme in ipairs(preferred_schemes) do
@@ -206,24 +215,24 @@ km('n', '<leader>tC', function()
       end
     end
   end
-  
+
   if #available_schemes == 0 then
     available_schemes = { 'github_dark_default' }
   end
-  
+
   local current = vim.g.colors_name or 'github_dark_default'
   local current_index = 1
-  
+
   for i, scheme in ipairs(available_schemes) do
     if scheme == current then
       current_index = i
       break
     end
   end
-  
+
   local next_index = (current_index % #available_schemes) + 1
   local next_scheme = available_schemes[next_index]
-  
+
   vim.cmd('colorscheme ' .. next_scheme)
   print('Switched to colorscheme: ' .. next_scheme .. ' (' .. current_index .. '/' .. #available_schemes .. ')')
 end, { desc = '[T]heme [C]ycle (all available)' })
@@ -294,11 +303,28 @@ km('n', '<leader>ys', '<cmd>!yarn start<CR>', { desc = '[Y]arn [S]tart' })
 km('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
 km('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
 km('n', '[e', function()
-  vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+  vim.diagnostic.goto_prev { severity = vim.diagnostic.severity.ERROR }
 end, { desc = 'Previous error' })
 km('n', ']e', function()
-  vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+  vim.diagnostic.goto_next { severity = vim.diagnostic.severity.ERROR }
 end, { desc = 'Next error' })
+
+-- Optional: auto-import for JS/TS (if using nvim-lspconfig with tsserver)
+
+km('n', '<leader>ai', function()
+  local params = vim.lsp.util.make_range_params()
+  params.context = { only = { 'source.addMissingImports.ts', 'source.addMissingImports.js' } }
+  local results = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, 1000)
+  for _, res in pairs(results or {}) do
+    for _, r in pairs(res.result or {}) do
+      if r.edit then
+        vim.lsp.util.apply_workspace_edit(r.edit, 'utf-16')
+      else
+        vim.lsp.buf.execute_command(r.command)
+      end
+    end
+  end
+end, { desc = 'Auto-import missing JS/TS imports' })
 
 -- Highlight yanked text
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -308,5 +334,3 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
-
-

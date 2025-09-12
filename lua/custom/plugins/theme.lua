@@ -14,7 +14,7 @@ return {
           hide_nc_statusline = true, -- Override the underline style for non-active statuslines
           
           -- Transparency settings
-          transparent = true, -- Disable setting background
+          transparent = false, -- Set to true for transparent background
           terminal_colors = true, -- Set terminal colors (e.g. `g:terminal_color_0`)
           dim_inactive = false, -- Non focused panes set to alternative background
           module_default = true, -- Default enable value for modules
@@ -73,27 +73,27 @@ return {
         groups = {
           -- Custom highlight group overrides
           github_dark_default = {
-            -- Make specific elements transparent
-            Normal = { bg = 'NONE' },
-            NormalNC = { bg = 'NONE' },
-            SignColumn = { bg = 'NONE' },
-            LineNr = { bg = 'NONE' },
-            CursorLineNr = { bg = 'NONE' },
-            VertSplit = { bg = 'NONE' },
-            WinSeparator = { bg = 'NONE' },
-            EndOfBuffer = { bg = 'NONE' },
+            -- Uncomment these lines if you want transparency:
+            -- Normal = { bg = 'NONE' },
+            -- NormalNC = { bg = 'NONE' },
+            -- SignColumn = { bg = 'NONE' },
+            -- LineNr = { bg = 'NONE' },
+            -- CursorLineNr = { bg = 'NONE' },
+            -- VertSplit = { bg = 'NONE' },
+            -- WinSeparator = { bg = 'NONE' },
+            -- EndOfBuffer = { bg = 'NONE' },
             
-            -- Float and popup transparency
-            NormalFloat = { bg = 'NONE' },
-            FloatBorder = { bg = 'NONE' },
-            Pmenu = { bg = 'NONE' },
-            PmenuSbar = { bg = 'NONE' },
-            PmenuThumb = { bg = 'NONE' },
+            -- Float and popup transparency (keeping these for better UX)
+            -- NormalFloat = { bg = 'NONE' },
+            -- FloatBorder = { bg = 'NONE' },
+            -- Pmenu = { bg = 'NONE' },
+            -- PmenuSbar = { bg = 'NONE' },
+            -- PmenuThumb = { bg = 'NONE' },
             
-            -- Telescope transparency
-            TelescopeNormal = { bg = 'NONE' },
-            TelescopeBorder = { bg = 'NONE' },
-            TelescopeTitle = { bg = 'NONE' },
+            -- Telescope with proper background
+            -- TelescopeNormal = { bg = 'NONE' },
+            -- TelescopeBorder = { bg = 'NONE' },
+            -- TelescopeTitle = { bg = 'NONE' },
             TelescopeSelection = { bg = '#2d333b' },
             TelescopeSelectionCaret = { bg = '#2d333b' },
             
@@ -140,23 +140,23 @@ return {
 
       vim.cmd([[colorscheme github_dark_default]])
       
-      -- Additional transparency settings that might be needed
-      vim.api.nvim_create_autocmd('ColorScheme', {
-        pattern = '*',
-        callback = function()
-          -- Ensure these remain transparent even after colorscheme changes
-          local transparent_groups = {
-            'Normal', 'NormalNC', 'SignColumn', 'LineNr', 'CursorLineNr',
-            'VertSplit', 'WinSeparator', 'EndOfBuffer', 'NormalFloat',
-            'FloatBorder', 'Pmenu', 'PmenuSbar', 'PmenuThumb',
-            'TelescopeNormal', 'TelescopeBorder', 'TelescopeTitle'
-          }
-          
-          for _, group in ipairs(transparent_groups) do
-            vim.cmd(string.format('highlight %s guibg=NONE ctermbg=NONE', group))
-          end
-        end,
-      })
+      -- Additional transparency settings (disabled for solid background)
+      -- vim.api.nvim_create_autocmd('ColorScheme', {
+      --   pattern = '*',
+      --   callback = function()
+      --     -- Ensure these remain transparent even after colorscheme changes
+      --     local transparent_groups = {
+      --       'Normal', 'NormalNC', 'SignColumn', 'LineNr', 'CursorLineNr',
+      --       'VertSplit', 'WinSeparator', 'EndOfBuffer', 'NormalFloat',
+      --       'FloatBorder', 'Pmenu', 'PmenuSbar', 'PmenuThumb',
+      --       'TelescopeNormal', 'TelescopeBorder', 'TelescopeTitle'
+      --     }
+      --     
+      --     for _, group in ipairs(transparent_groups) do
+      --       vim.cmd(string.format('highlight %s guibg=NONE ctermbg=NONE', group))
+      --     end
+      --   end,
+      -- })
     end,
   },
 

@@ -14,6 +14,18 @@ require 'config.diagnostics'
 require 'config.keymaps'
 --require 'config.guess-indent' -- optional plugin config
 
+-- Enable terminal title updates
+vim.o.title = true
+
+-- Define a global Lua function
+_G.project_name = function()
+  local cwd = vim.fn.getcwd()
+  return vim.fn.fnamemodify(cwd, ':t')
+end
+
+-- Use the global function in the title
+vim.o.titlestring = '%{v:lua.project_name()} - nvim'
+
 -- Check Yazi availability on startup
 vim.defer_fn(function()
   require('config.yazi-setup').setup()
