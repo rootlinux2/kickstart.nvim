@@ -25,8 +25,3 @@ end
 
 -- Use the global function in the title
 vim.o.titlestring = '%{v:lua.project_name()} - nvim'
-
--- Check Yazi availability on startup
-vim.defer_fn(function()
-  require('config.yazi-setup').setup()
-end, 100)
