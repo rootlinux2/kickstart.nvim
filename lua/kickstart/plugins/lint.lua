@@ -5,12 +5,27 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       local lint = require 'lint'
+      
+      -- Function to check if a command exists
+      local function command_exists(cmd)
+        local handle = io.popen('which ' .. cmd .. ' 2>/dev/null')
+        local result = handle:read('*a')
+        handle:close()
+        return result ~= ''
+      end
+      
+      -- Choose the best available ESLint linter
+      local eslint_linter = 'eslint'
+      if command_exists('eslint_d') then
+        eslint_linter = 'eslint_d'
+      end
+      
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
-        javascript = { 'eslint_d' },
-        typescript = { 'eslint_d' },
-        javascriptreact = { 'eslint_d' },
-        typescriptreact = { 'eslint_d' },
+        javascript = { eslint_linter },
+        typescript = { eslint_linter },
+        javascriptreact = { eslint_linter },
+        typescriptreact = { eslint_linter },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
@@ -55,13 +70,26 @@ return {
           -- avoid superfluous noise, notably within the handy LSP pop-ups that
           -- describe the hovered symbol using Markdown.
           if vim.bo.modifiable then
-            lint.try_lint()
+            -- Wrap in pcall to prevent errors from breaking Neovim
+            local ok, err = pcall(function()
+              lint.try_lint()
+            end)
+            if not ok then
+              vim.notify('Linting error: ' .. tostring(err), vim.log.levels.WARN)
+            end
           end
         end,
       })
       -- Manually trigger linting
       vim.keymap.set('n', '<leader>l', function()
-        lint.try_lint()
+        local ok, err = pcall(function()
+          lint.try_lint()
+        end)
+        if not ok then
+          vim.notify('Linting error: ' .. tostring(err), vim.log.levels.ERROR)
+        else
+          vim.notify('Linting completed', vim.log.levels.INFO)
+        end
       end, { desc = 'Trigger linting for current file' })
     end,
   },
