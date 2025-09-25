@@ -20,6 +20,12 @@ return {
       
       indent = { enable = true },
       
+      -- Enable folding
+      fold = {
+        enable = true,
+        disable = {},
+      },
+      
       -- Enhanced incremental selection for JS/TS
       incremental_selection = {
         enable = true,

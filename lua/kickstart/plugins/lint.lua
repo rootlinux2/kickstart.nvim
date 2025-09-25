@@ -80,26 +80,13 @@ return {
           end
         end,
       })
-      -- Manually trigger linting
-      vim.keymap.set('n', '<leader>l', function()
-        local ok, err = pcall(function()
-          lint.try_lint()
-        end)
-        if not ok then
-          vim.notify('Linting error: ' .. tostring(err), vim.log.levels.ERROR)
-        else
-          vim.notify('Linting completed', vim.log.levels.INFO)
-        end
-      end, { desc = 'Trigger linting for current file' })
+
     end,
   },
 
   { -- Git integration
     'tpope/vim-fugitive',
     cmd = { 'Git', 'Gstatus', 'Gcommit', 'Gpush', 'Gpull' },
-    config = function()
-      -- Ensure the key mapping is applied globally
-      vim.keymap.set('n', '<leader>gs', ':Git<CR>', { desc = 'Open Git status', silent = true, noremap = true })
-    end,
+
   },
 }

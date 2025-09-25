@@ -10,9 +10,6 @@ return {
     'MunifTanjim/nui.nvim',
   },
   lazy = true,
-  keys = {
-    { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
-  },
   opts = {
     close_if_last_window = false, -- Don't close Neo-tree if it's the last window
     popup_border_style = 'rounded',

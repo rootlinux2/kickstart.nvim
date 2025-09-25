@@ -145,6 +145,17 @@ km('n', '<C-u>', '<C-u>zz', { desc = 'Half page up (centered)' })
 -- Toggle line wrapping
 km('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = '[T]oggle line [W]rap' })
 
+-- Folding keymaps (za, zo, zc should work by default, but adding convenient alternatives)
+km('n', '<leader>zo', 'zo', { desc = 'Fold [O]pen' })
+km('n', '<leader>zc', 'zc', { desc = 'Fold [C]lose' })
+km('n', '<leader>za', 'za', { desc = 'Fold Toggle [A]ll' })
+km('n', '<leader>zO', 'zO', { desc = 'Fold [O]pen all nested' })
+km('n', '<leader>zC', 'zC', { desc = 'Fold [C]lose all nested' })
+km('n', '<leader>zm', 'zM', { desc = 'Fold [M]ore - Close all folds' })
+km('n', '<leader>zr', 'zR', { desc = 'Fold [R]educe - Open all folds' })
+km('n', '<leader>zj', 'zj', { desc = 'Next fold' })
+km('n', '<leader>zk', 'zk', { desc = 'Previous fold' })
+
 -- Node.js/TypeScript specific keymaps
 km('n', '<leader>nr', '<cmd>!npm run<CR>', { desc = '[N]pm [R]un script' })
 km('n', '<leader>ni', '<cmd>!npm install<CR>', { desc = '[N]pm [I]nstall' })
@@ -197,4 +208,143 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Neo-tree
 km('n', '<leader>e', ':Neotree toggle<CR>', { desc = 'Toggle Neo-tree' })
+km('n', '\\', ':Neotree reveal<CR>', { desc = 'NeoTree reveal' })
+
+-- Copilot (Insert mode)
+km('i', '<C-J>', 'copilot#Accept("\\<CR>")', { 
+  expr = true, 
+  replace_keycodes = false, 
+  desc = 'Accept Copilot suggestion' 
+})
+km('i', '<C-H>', '<Plug>(copilot-dismiss)', { 
+  replace_keycodes = false, 
+  desc = 'Dismiss Copilot suggestion' 
+})
+km('i', '<C-L>', '<Plug>(copilot-next)', { 
+  replace_keycodes = false, 
+  desc = 'Next Copilot suggestion' 
+})
+km('i', '<C-K>', '<Plug>(copilot-previous)', { 
+  replace_keycodes = false, 
+  desc = 'Previous Copilot suggestion' 
+})
+km('i', '<C-\\>', '<Plug>(copilot-suggest)', { 
+  replace_keycodes = false, 
+  desc = 'Trigger Copilot suggestion' 
+})
+
+-- Copilot (Normal mode)
+km('n', '<leader>cs', '<cmd>Copilot status<CR>', { desc = 'Copilot status' })
+km('n', '<leader>cp', '<cmd>Copilot panel<CR>', { desc = 'Copilot panel' })
+
+-- Copilot Chat
+km({ 'n', 'v' }, '<leader>cc', function()
+  require('CopilotChat').open()
+end, { desc = 'Open Copilot Chat' })
+
+km({ 'n', 'v' }, '<leader>ccq', function()
+  local input = vim.fn.input 'Quick Chat: '
+  if vim.trim(input) ~= '' then
+    require('CopilotChat').ask(input, { selection = require('CopilotChat.select').buffer })
+  end
+end, { desc = 'Quick chat' })
+
+km('v', '<leader>cce', function()
+  require('CopilotChat').ask('Explain how this code works.', { selection = require('CopilotChat.select').visual })
+end, { desc = 'Explain code' })
+
+km('v', '<leader>ccv', function()
+  require('CopilotChat').ask('Review this code and suggest improvements.', { selection = require('CopilotChat.select').visual })
+end, { desc = 'Review code' })
+
+km('v', '<leader>ccf', function()
+  require('CopilotChat').ask('Fix this code.', { selection = require('CopilotChat.select').visual })
+end, { desc = 'Fix code' })
+
+km('v', '<leader>cco', function()
+  require('CopilotChat').ask('Optimize this code.', { selection = require('CopilotChat.select').visual })
+end, { desc = 'Optimize code' })
+
+km('v', '<leader>ccd', function()
+  require('CopilotChat').ask('Add documentation for this code.', { selection = require('CopilotChat.select').visual })
+end, { desc = 'Document code' })
+
+km('v', '<leader>cct', function()
+  require('CopilotChat').ask('Generate tests for this code.', { selection = require('CopilotChat.select').visual })
+end, { desc = 'Generate tests' })
+
+km('n', '<leader>ccx', function()
+  require('CopilotChat').close()
+end, { desc = 'Close Copilot Chat' })
+
+km('n', '<leader>ccr', function()
+  require('CopilotChat').reset()
+end, { desc = 'Reset Copilot Chat' })
+
+-- Linting
+km('n', '<leader>l', function()
+  local ok, err = pcall(function()
+    require('lint').try_lint()
+  end)
+  if not ok then
+    vim.notify('Linting error: ' .. tostring(err), vim.log.levels.ERROR)
+  else
+    vim.notify('Linting completed', vim.log.levels.INFO)
+  end
+end, { desc = 'Trigger linting for current file' })
+
+-- Debug (DAP)
+-- Function keys for debugging
+km('n', '<F5>', function() require('dap').continue() end, { desc = 'Debug: Start/Continue' })
+km('n', '<F1>', function() require('dap').step_into() end, { desc = 'Debug: Step Into' })
+km('n', '<F2>', function() require('dap').step_over() end, { desc = 'Debug: Step Over' })
+km('n', '<F3>', function() require('dap').step_out() end, { desc = 'Debug: Step Out' })
+km('n', '<F7>', function() require('dapui').toggle() end, { desc = 'Debug: See last session result' })
+
+-- Leader key debug mappings
+km('n', '<leader>b', function() require('dap').toggle_breakpoint() end, { desc = 'Debug: Toggle Breakpoint' })
+km('n', '<leader>B', function() 
+  require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ') 
+end, { desc = 'Debug: Set Breakpoint' })
+km('n', '<leader>db', function() require('dap').toggle_breakpoint() end, { desc = '[D]ebug: Toggle [B]reakpoint' })
+km('n', '<leader>dB', function()
+  require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+end, { desc = '[D]ebug: Set conditional breakpoint' })
+km('n', '<leader>dc', function() require('dap').continue() end, { desc = '[D]ebug: [C]ontinue' })
+km('n', '<leader>dC', function() require('dap').run_to_cursor() end, { desc = '[D]ebug: Run to [C]ursor' })
+km('n', '<leader>dg', function() require('dap').goto_() end, { desc = '[D]ebug: [G]o to line (no execute)' })
+km('n', '<leader>di', function() require('dap').step_into() end, { desc = '[D]ebug: Step [I]nto' })
+km('n', '<leader>dj', function() require('dap').down() end, { desc = '[D]ebug: Down' })
+km('n', '<leader>dk', function() require('dap').up() end, { desc = '[D]ebug: Up' })
+km('n', '<leader>dl', function() require('dap').run_last() end, { desc = '[D]ebug: Run [L]ast' })
+km('n', '<leader>do', function() require('dap').step_out() end, { desc = '[D]ebug: Step [O]ut' })
+km('n', '<leader>dO', function() require('dap').step_over() end, { desc = '[D]ebug: Step [O]ver' })
+km('n', '<leader>dp', function() require('dap').pause() end, { desc = '[D]ebug: [P]ause' })
+km('n', '<leader>dr', function() require('dap').repl.open() end, { desc = '[D]ebug: Open [R]EPL' })
+km('n', '<leader>ds', function() require('dap').session() end, { desc = '[D]ebug: [S]ession' })
+km('n', '<leader>dt', function() require('dap').terminate() end, { desc = '[D]ebug: [T]erminate' })
+km('n', '<leader>du', function() require('dapui').toggle() end, { desc = '[D]ebug: Toggle [U]I' })
+km('n', '<leader>dw', function()
+  require('dap.ui.widgets').hover()
+end, { desc = '[D]ebug: [W]idgets' })
+km({ 'n', 'v' }, '<leader>dh', function()
+  require('dap.ui.widgets').hover()
+end, { desc = '[D]ebug: [H]over Variables' })
+km({ 'n', 'v' }, '<leader>dp', function()
+  require('dap.ui.widgets').preview()
+end, { desc = '[D]ebug: [P]review' })
+
+-- Todo Comments
+km('n', ']t', function() require('todo-comments').jump_next() end, { desc = 'Next todo comment' })
+km('n', '[t', function() require('todo-comments').jump_prev() end, { desc = 'Previous todo comment' })
+km('n', '<leader>xt', '<cmd>TodoTrouble<cr>', { desc = 'Todo (Trouble)' })
+km('n', '<leader>xT', '<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>', { desc = 'Todo/Fix/Fixme (Trouble)' })
+km('n', '<leader>st', '<cmd>TodoTelescope<cr>', { desc = 'Todo' })
+km('n', '<leader>sT', '<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>', { desc = 'Todo/Fix/Fixme' })
+
+-- Additional Telescope keymaps (from lazy.lua)
+km('n', '<leader>sh', function() require('telescope.builtin').help_tags() end, { desc = '[S]earch [H]elp' })
+km('n', '<leader>sf', function() require('telescope.builtin').find_files() end, { desc = '[S]earch [F]iles' })
+km('n', '<leader>ss', function() require('telescope.builtin').builtin() end, { desc = '[S]earch [S]elect Telescope' })

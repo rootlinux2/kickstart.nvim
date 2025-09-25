@@ -24,6 +24,7 @@ require('lazy').setup {
       spec = {
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]abs' },
+        { '<leader>z', group = 'Folding' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
         { '<leader>g', group = '[G]it' },
         { '<leader>gb', group = 'Git [B]ranches' },
@@ -35,7 +36,9 @@ require('lazy').setup {
         { '<leader>n', group = '[N]ode.js/NPM' },
         { '<leader>y', group = '[Y]arn' },
         { '<leader>r', group = '[R]EST/API' },
-        { '<leader>db', group = '[D]atabase' },
+        { '<leader>c', group = '[C]opilot' },
+        { '<leader>cc', group = 'Copilot [C]hat' },
+        { '<leader>x', group = 'Trouble/Todo' },
         { '<leader>f', desc = '[F]ormat buffer' },
       },
     },
@@ -67,10 +70,7 @@ require('lazy').setup {
       pcall(telescope.load_extension, 'lazygit')
       pcall(telescope.load_extension, 'ui-select')
 
-      local builtin = require 'telescope.builtin'
-      vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-      vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
-      vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
+
     end,
   },
 
