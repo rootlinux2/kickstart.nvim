@@ -11,6 +11,9 @@ km('n', '<leader>cd', vim.diagnostic.open_float, { desc = 'Show LSP diagnostic' 
 -- Tabs
 km('n', '<leader>tn', ':tabnext<CR>', { desc = 'Next Tab' })
 km('n', '<leader>tp', ':tabprevious<CR>', { desc = 'Previous Tab' })
+km('n', '<leader>tc', ':tabclose<CR>', { desc = 'Close Tab' })
+km('n', '<leader>to', ':tabonly<CR>', { desc = 'Close all other tabs' })
+km('n', '<leader>tt', ':tabnew<CR>', { desc = 'New Tab' })
 
 -- Move lines
 km('n', '<A-j>', ':m .+1<CR>==', { desc = 'Move line down' })
@@ -30,11 +33,9 @@ km('n', '<C-l>', '<C-w><C-l>', { desc = 'Right window' })
 km('n', '<C-j>', '<C-w><C-j>', { desc = 'Lower window' })
 km('n', '<C-k>', '<C-w><C-k>', { desc = 'Upper window' })
 
--- Terminal
-
+-- Terminal (built-in only)
 -- Exit terminal mode (alternative binding)
 km('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
--- Note: <leader>t for floating terminal is configured in lazy.lua FTerm plugin
 
 -- Additional Git keymaps (gitsigns keymaps are in lazygit.lua)
 km('n', '<leader>gl', '<cmd>Git log --oneline<CR>', { desc = 'Git log' })
@@ -195,3 +196,5 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+km('n', '<leader>e', ':Neotree toggle<CR>', { desc = 'Toggle Neo-tree' })

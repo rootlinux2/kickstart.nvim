@@ -14,61 +14,6 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Plugins
 require('lazy').setup {
-  -- FTerm
-  {
-    'numToStr/FTerm.nvim',
-    keys = {
-      { '<leader>t', desc = 'Toggle floating terminal' },
-    },
-    opts = {
-      border = 'rounded',
-      dimensions = { 
-        height = 0.8, 
-        width = 0.8,
-        x = 0.5,
-        y = 0.5 
-      },
-      blend = 0,
-    },
-    config = function(_, opts)
-      require('FTerm').setup(opts)
-      
-      -- Fix terminal modifiable settings
-      vim.api.nvim_create_autocmd('TermOpen', {
-        pattern = '*',
-        callback = function(args)
-          local buf = args.buf
-          vim.bo[buf].buflisted = false
-          vim.wo.number = false
-          vim.wo.relativenumber = false
-          vim.wo.signcolumn = 'no'
-        end,
-      })
-      
-      -- Better terminal closing behavior
-      vim.api.nvim_create_autocmd('TermClose', {
-        pattern = '*',
-        callback = function()
-          vim.schedule(function()
-            vim.cmd('bdelete!')
-          end)
-        end,
-      })
-      
-      -- Keymaps
-      vim.keymap.set('n', '<leader>t', function()
-        require('FTerm').toggle()
-      end, { desc = 'Toggle floating terminal' })
-      
-      vim.keymap.set('t', '<leader>t', function()
-        require('FTerm').toggle()
-      end, { desc = 'Toggle floating terminal' })
-      
-      -- Exit terminal mode easily
-      vim.keymap.set('t', '<C-x>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-    end,
-  },
-
   -- Which Key
   {
     'folke/which-key.nvim',
@@ -78,7 +23,7 @@ require('lazy').setup {
       icons = { mappings = vim.g.have_nerd_font },
       spec = {
         { '<leader>s', group = '[S]earch' },
-        { '<leader>t', group = '[T]oggle' },
+        { '<leader>t', group = '[T]abs' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
         { '<leader>g', group = '[G]it' },
         { '<leader>gb', group = 'Git [B]ranches' },
@@ -92,9 +37,6 @@ require('lazy').setup {
         { '<leader>r', group = '[R]EST/API' },
         { '<leader>db', group = '[D]atabase' },
         { '<leader>f', desc = '[F]ormat buffer' },
-        { '<leader>th', desc = '[T]erminal [H]orizontal' },
-        { '<leader>tv', desc = '[T]erminal [V]ertical' },
-        { '<leader>tf', desc = '[T]erminal [F]loating' },
       },
     },
   },
