@@ -145,6 +145,16 @@ km('n', '<C-u>', '<C-u>zz', { desc = 'Half page up (centered)' })
 -- Toggle line wrapping
 km('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = '[T]oggle line [W]rap' })
 
+-- Toggle transparency
+km('n', '<leader>tT', function()
+  local tokyonight = require("tokyonight")
+  local config = require("tokyonight.config")
+  
+  -- Toggle transparency
+  config.options.transparent = not config.options.transparent
+  tokyonight.load()
+end, { desc = '[T]oggle [T]ransparency' })
+
 -- Folding keymaps (za, zo, zc should work by default, but adding convenient alternatives)
 km('n', '<leader>zo', 'zo', { desc = 'Fold [O]pen' })
 km('n', '<leader>zc', 'zc', { desc = 'Fold [C]lose' })
@@ -209,8 +219,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- Neo-tree
-km('n', '<leader>e', ':Neotree toggle<CR>', { desc = 'Toggle Neo-tree' })
-km('n', '\\', ':Neotree reveal<CR>', { desc = 'NeoTree reveal' })
+km('n', '<leader>e', function()
+  -- Ensure Neo-tree is loaded before calling the command
+  pcall(require, 'neo-tree')
+  vim.cmd('Neotree toggle')
+end, { desc = 'Toggle Neo-tree' })
+km('n', '\\', function()
+  pcall(require, 'neo-tree')
+  vim.cmd('Neotree reveal')
+end, { desc = 'NeoTree reveal' })
 
 -- Copilot (Insert mode)
 km('i', '<C-J>', 'copilot#Accept("\\<CR>")', { 
@@ -332,9 +349,9 @@ end, { desc = '[D]ebug: [W]idgets' })
 km({ 'n', 'v' }, '<leader>dh', function()
   require('dap.ui.widgets').hover()
 end, { desc = '[D]ebug: [H]over Variables' })
-km({ 'n', 'v' }, '<leader>dp', function()
+km({ 'n', 'v' }, '<leader>dw', function()
   require('dap.ui.widgets').preview()
-end, { desc = '[D]ebug: [P]review' })
+end, { desc = '[D]ebug: [W]idget preview' })
 
 -- Todo Comments
 km('n', ']t', function() require('todo-comments').jump_next() end, { desc = 'Next todo comment' })
