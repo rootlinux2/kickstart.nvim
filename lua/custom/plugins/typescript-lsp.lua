@@ -24,7 +24,6 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = { "williamboman/mason-lspconfig.nvim" },
     config = function()
-      local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       local on_attach = function(client, bufnr)
@@ -79,8 +78,11 @@ return {
         end
       end
 
-      -- Setup ts_ls with proper configuration
-      lspconfig.ts_ls.setup({
+      -- Setup ts_ls using the new vim.lsp.config API
+      vim.lsp.config('ts_ls', {
+        cmd = { 'typescript-language-server', '--stdio' },
+        filetypes = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
+        root_markers = { 'package.json', 'tsconfig.json', 'jsconfig.json', '.git' },
         capabilities = capabilities,
         on_attach = on_attach,
         settings = {

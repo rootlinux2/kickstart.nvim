@@ -5,7 +5,6 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = { "williamboman/mason-lspconfig.nvim" },
     config = function()
-      local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       -- Enhanced capabilities for better LSP experience
@@ -19,51 +18,61 @@ return {
         if client.supports_method("textDocument/inlayHint") then
           vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
         end
+      end
 
-        -- Additional LSP servers you might want to add
-        local servers = {
-          -- JSON
-          jsonls = {
-            settings = {
-              json = {
-                schemas = require("schemastore").json.schemas(),
-                validate = { enable = true },
-              },
+      -- Setup additional LSP servers using the new vim.lsp.config API
+      local servers = {
+        -- JSON
+        jsonls = {
+          cmd = { 'vscode-json-language-server', '--stdio' },
+          filetypes = { 'json', 'jsonc' },
+          root_markers = { 'package.json', '.git' },
+          settings = {
+            json = {
+              schemas = require("schemastore").json.schemas(),
+              validate = { enable = true },
             },
           },
-          
-          -- HTML
-          html = {
-            capabilities = capabilities,
-          },
-          
-          -- CSS
-          cssls = {
-            capabilities = capabilities,
-          },
-          
-          -- Lua (for Neovim configuration)
-          lua_ls = {
-            settings = {
-              Lua = {
-                runtime = { version = "LuaJIT" },
-                workspace = {
-                  checkThirdParty = false,
-                  library = { vim.env.VIMRUNTIME },
-                },
-                completion = { callSnippet = "Replace" },
-                diagnostics = { disable = { "missing-fields" } },
+        },
+        
+        -- HTML
+        html = {
+          cmd = { 'vscode-html-language-server', '--stdio' },
+          filetypes = { 'html' },
+          root_markers = { 'package.json', '.git' },
+        },
+        
+        -- CSS
+        cssls = {
+          cmd = { 'vscode-css-language-server', '--stdio' },
+          filetypes = { 'css', 'scss', 'less' },
+          root_markers = { 'package.json', '.git' },
+        },
+        
+        -- Lua (for Neovim configuration)
+        lua_ls = {
+          cmd = { 'lua-language-server' },
+          filetypes = { 'lua' },
+          root_markers = { '.luarc.json', '.luarc.jsonc', '.luacheckrc', '.stylua.toml', 'stylua.toml', 'selene.toml', 'selene.yml', '.git' },
+          settings = {
+            Lua = {
+              runtime = { version = "LuaJIT" },
+              workspace = {
+                checkThirdParty = false,
+                library = { vim.env.VIMRUNTIME },
               },
+              completion = { callSnippet = "Replace" },
+              diagnostics = { disable = { "missing-fields" } },
             },
           },
-        }
+        },
+      }
 
-        -- Setup servers with enhanced configurations
-        for server, config in pairs(servers) do
-          config.capabilities = capabilities
-          config.on_attach = on_attach
-          lspconfig[server].setup(config)
-        end
+      -- Setup servers with enhanced configurations using new API
+      for server_name, config in pairs(servers) do
+        config.capabilities = capabilities
+        config.on_attach = on_attach
+        vim.lsp.config(server_name, config)
       end
     end,
   },
