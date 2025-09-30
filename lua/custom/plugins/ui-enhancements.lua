@@ -80,9 +80,6 @@ return {
     ft = "qf",
     dependencies = {
       "junegunn/fzf",
-      build = function()
-        vim.fn["fzf#install"]()
-      end,
     },
     config = function()
       require("bqf").setup({

@@ -123,11 +123,13 @@ require('lazy').setup {
   -- Telescope
   {
     'nvim-telescope/telescope.nvim',
+    branch = 'master',  -- Use stable master branch
     event = 'VimEnter',
     dependencies = {
       'nvim-lua/plenary.nvim',
       {
         'nvim-telescope/telescope-fzf-native.nvim',
+        branch = 'main',
         build = 'make',
         cond = function()
           return vim.fn.executable 'make' == 1

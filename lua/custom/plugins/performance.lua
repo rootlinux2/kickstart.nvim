@@ -1,11 +1,6 @@
 return {
-  -- Optimize startup time
-  {
-    "lewis6991/impatient.nvim",
-    config = function()
-      require('impatient')
-    end,
-  },
+  -- Note: impatient.nvim is no longer needed in modern Neovim
+  -- Startup optimization is now built-in
 
   -- Better marks
   {
