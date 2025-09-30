@@ -1,6 +1,6 @@
 -- Bootstrap Lazy.nvim
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system {
     'git',
     'clone',
@@ -14,11 +14,12 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Plugins
 require('lazy').setup {
-  -- FTerm
+  -- FTerm - Modern floating terminal
   {
     'numToStr/FTerm.nvim',
     keys = {
       { '<leader>t', desc = 'Toggle floating terminal' },
+      { '<C-\\>', desc = 'Toggle floating terminal' },
     },
     opts = {
       border = 'rounded',
@@ -29,25 +30,32 @@ require('lazy').setup {
         y = 0.5 
       },
       blend = 0,
+      auto_close = true,
     },
     config = function(_, opts)
       require('FTerm').setup(opts)
       
-      -- Fix terminal modifiable settings
+      -- Enhanced terminal autocmds
       vim.api.nvim_create_autocmd('TermOpen', {
-        pattern = '*',
+        group = vim.api.nvim_create_augroup('FTermSetup', { clear = true }),
+        pattern = 'term://*FTerm*',
         callback = function(args)
           local buf = args.buf
           vim.bo[buf].buflisted = false
           vim.wo.number = false
           vim.wo.relativenumber = false
           vim.wo.signcolumn = 'no'
+          vim.wo.statuscolumn = ''
+          
+          -- Enter insert mode automatically
+          vim.cmd('startinsert')
         end,
       })
       
       -- Better terminal closing behavior
       vim.api.nvim_create_autocmd('TermClose', {
-        pattern = '*',
+        group = vim.api.nvim_create_augroup('FTermClose', { clear = true }),
+        pattern = 'term://*FTerm*',
         callback = function()
           vim.schedule(function()
             vim.cmd('bdelete!')
@@ -55,17 +63,38 @@ require('lazy').setup {
         end,
       })
       
-      -- Keymaps
-      vim.keymap.set('n', '<leader>t', function()
+      -- Multiple terminal instances
+      local terminals = {}
+      
+      local function create_terminal_toggle(id, cmd)
+        return function()
+          if not terminals[id] then
+            terminals[id] = require('FTerm'):new({
+              cmd = cmd,
+              dimensions = opts.dimensions,
+            })
+          end
+          terminals[id]:toggle()
+        end
+      end
+      
+      -- Keymaps with enhanced functionality
+      vim.keymap.set({'n', 't'}, '<leader>t', function()
         require('FTerm').toggle()
       end, { desc = 'Toggle floating terminal' })
       
-      vim.keymap.set('t', '<leader>t', function()
+      vim.keymap.set({'n', 't'}, '<C-\\>', function()
         require('FTerm').toggle()
       end, { desc = 'Toggle floating terminal' })
       
-      -- Exit terminal mode easily
+      -- Additional terminal types
+      vim.keymap.set('n', '<leader>tg', create_terminal_toggle('git', 'lazygit'), { desc = 'Toggle LazyGit terminal' })
+      vim.keymap.set('n', '<leader>th', create_terminal_toggle('htop', 'htop'), { desc = 'Toggle htop terminal' })
+      vim.keymap.set('n', '<leader>tn', create_terminal_toggle('node', 'node'), { desc = 'Toggle Node.js terminal' })
+      
+      -- Easy terminal mode exit
       vim.keymap.set('t', '<C-x>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+      vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
     end,
   },
 

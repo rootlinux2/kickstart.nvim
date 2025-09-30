@@ -2,7 +2,8 @@
 local o = vim.opt
 
 o.termguicolors = true
-o.shell = "/usr/bin/zsh"
+-- Use the correct shell path for your system
+o.shell = vim.fn.executable('zsh') == 1 and vim.fn.exepath('zsh') or vim.o.shell
 o.number = true
 o.relativenumber = true
 o.mouse = 'a'
@@ -66,7 +67,4 @@ o.pumheight = 10       -- Maximum number of items in popup menu
 o.hlsearch = true      -- Highlight search results
 o.incsearch = true     -- Incremental search
 
--- Window and buffer behavior
-o.splitkeep = 'screen' -- Keep the same relative cursor position when splitting
-o.shortmess:append('c') -- Don't show completion messages
-o.formatoptions:remove({'c', 'r', 'o'}) -- Don't auto-wrap comments
+-- Window and buffer behavior\no.splitkeep = 'screen' -- Keep the same relative cursor position when splitting\no.shortmess:append('c') -- Don't show completion messages\no.formatoptions:remove({'c', 'r', 'o'}) -- Don't auto-wrap comments\n\n-- Performance optimizations (Neovim 0.10+)\no.lazyredraw = false -- Don't redraw during macros (can cause issues with modern plugins)\no.ttyfast = true -- Fast terminal connection\no.synmaxcol = 300 -- Don't syntax highlight very long lines\no.redrawtime = 1500 -- Time in milliseconds for redrawing the display\no.ttimeoutlen = 10 -- Time in milliseconds to wait for a key code sequence\n\n-- Modern clipboard integration\nif vim.fn.has('unnamedplus') == 1 then\n  o.clipboard:append('unnamedplus')\nend\n\n-- Better backup and undo behavior\no.backup = false\no.writebackup = false\no.undodir = vim.fn.stdpath('cache') .. '/undo'\no.backupdir = vim.fn.stdpath('cache') .. '/backup'\no.directory = vim.fn.stdpath('cache') .. '/swap'\n\n-- Create cache directories if they don't exist\nvim.fn.mkdir(vim.fn.stdpath('cache') .. '/undo', 'p')\nvim.fn.mkdir(vim.fn.stdpath('cache') .. '/backup', 'p')\nvim.fn.mkdir(vim.fn.stdpath('cache') .. '/swap', 'p')

@@ -274,23 +274,6 @@ km('n', '<C-u>', '<C-u>zz', { desc = 'Half page up (centered)' })
 -- Toggle line wrapping
 km('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = '[T]oggle line [W]rap' })
 
--- LSP diagnostic navigation
-km('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
-km('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
-km('n', '[e', function()
-  vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
-end, { desc = 'Previous error' })
-km('n', ']e', function()
-  vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
-end, { desc = 'Next error' })
-
--- Highlight yanked text
-vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Highlight when yanking (copying) text',
-  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-})
+-- Note: LSP diagnostic navigation is now handled in diagnostics.lua to avoid duplication\n-- Note: Highlight yanked text is now handled in autocmds.lua to avoid duplication
 
 

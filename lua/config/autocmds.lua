@@ -1,8 +1,36 @@
--- Highlight on yank
+-- Highlight on yank with enhanced options
 vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('highlight_yank', { clear = true }),
   callback = function()
-    vim.hl.on_yank()
+    vim.hl.on_yank({ timeout = 150, higroup = 'Visual' })
+  end,
+})
+
+-- Auto-save when focus is lost
+vim.api.nvim_create_autocmd({ 'FocusLost', 'BufLeave' }, {
+  group = vim.api.nvim_create_augroup('auto_save', { clear = true }),
+  callback = function()
+    if vim.bo.modified and not vim.bo.readonly and vim.fn.expand('%') ~= '' and vim.bo.buftype == '' then
+      vim.api.nvim_command('silent update')
+    end
+  end,
+})
+
+-- Auto-resize splits when vim is resized
+vim.api.nvim_create_autocmd('VimResized', {
+  group = vim.api.nvim_create_augroup('auto_resize', { clear = true }),
+  callback = function()
+    vim.cmd('tabdo wincmd =')
+  end,
+})
+
+-- Close some filetypes with <q>
+vim.api.nvim_create_autocmd('FileType', {
+  group = vim.api.nvim_create_augroup('close_with_q', { clear = true }),
+  pattern = { 'help', 'lspinfo', 'man', 'qf', 'startuptime', 'checkhealth' },
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf, silent = true })
   end,
 })
 
