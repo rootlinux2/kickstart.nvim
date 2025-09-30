@@ -41,6 +41,6 @@ local function silence_known_deprecations()
 end
 
 -- Optionally enable this if you want to silence the warnings temporarily
--- silence_known_deprecations()
+silence_known_deprecations()  -- Enable to suppress known deprecation warnings
 
 return {}

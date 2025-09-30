@@ -17,6 +17,7 @@ return {
   -- Git integration for telescope
   {
     'nvim-telescope/telescope.nvim',
+    branch = 'master',
     dependencies = {
       'nvim-telescope/telescope-fzf-native.nvim',
       'nvim-telescope/telescope-ui-select.nvim',
