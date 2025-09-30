@@ -349,7 +349,7 @@ end, { desc = '[D]ebug: [W]idgets' })
 km({ 'n', 'v' }, '<leader>dh', function()
   require('dap.ui.widgets').hover()
 end, { desc = '[D]ebug: [H]over Variables' })
-km({ 'n', 'v' }, '<leader>dw', function()
+km({ 'n', 'v' }, '<leader>dW', function()
   require('dap.ui.widgets').preview()
 end, { desc = '[D]ebug: [W]idget preview' })
 
