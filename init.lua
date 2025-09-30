@@ -13,8 +13,3 @@ require 'config.autocmds'
 require 'config.diagnostics'
 require 'config.keymaps'
 --require 'config.guess-indent' -- optional plugin config
-
--- Check Yazi availability on startup
-vim.defer_fn(function()
-  require('config.yazi-setup').setup()
-end, 100)

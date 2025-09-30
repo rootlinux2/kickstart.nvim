@@ -66,7 +66,6 @@ function M.check()
     { cmd = 'lazygit', name = 'LazyGit' },
     { cmd = 'rg', name = 'Ripgrep (for telescope)' },
     { cmd = 'fd', name = 'fd (for telescope)' },
-    { cmd = 'yazi', name = 'Yazi file manager' },
   }
   
   for _, tool in ipairs(tools) do

@@ -7,37 +7,11 @@ km('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear search highlights' })
 km('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 km("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Show LSP diagnostic" })
 
--- File manager (Yazi) keymaps with enhanced error handling
-local yazi_setup_ok, yazi_setup = pcall(require, 'config.yazi-setup')
-if not yazi_setup_ok then
-  vim.notify("Yazi setup module not found", vim.log.levels.WARN)
-  yazi_setup = {
-    open_yazi = function() vim.notify("Yazi not configured", vim.log.levels.WARN) end,
-    setup = function() vim.notify("Yazi not configured", vim.log.levels.WARN) end
-  }
-end
-
-km('n', '<leader>e', function()
-  yazi_setup.open_yazi()
-end, { desc = 'Open file manager (Yazi)' })
-
-km('n', '<C-n>', function()
-  yazi_setup.open_yazi()
-end, { desc = 'Open file manager (Yazi)' })
-
-km('n', '<leader>E', function()
-  yazi_setup.open_yazi('cwd')
-end, { desc = 'Open Yazi in working directory' })
-
--- Add a keymap to check Yazi plugin status
-km('n', '<leader>yi', function()
-  local yazi_setup = require('config.yazi-setup')
-  if not yazi_setup.check_yazi_binary() then
-    yazi_setup.show_install_instructions()
-  else
-    yazi_setup.setup()
-  end
-end, { desc = 'Check Yazi installation and show setup instructions' })
+-- File manager (Neo-tree) keymaps
+km('n', '<leader>e', '<cmd>Neotree toggle<CR>', { desc = 'Toggle file explorer (Neo-tree)' })
+km('n', '<C-n>', '<cmd>Neotree toggle<CR>', { desc = 'Toggle file explorer (Neo-tree)' })
+km('n', '<leader>E', '<cmd>Neotree focus<CR>', { desc = 'Focus file explorer (Neo-tree)' })
+km('n', '<leader>ef', '<cmd>Neotree reveal<CR>', { desc = 'Reveal current file in explorer' })
 
 -- Tabs
 km('n', '<leader>tn', ':tabnext<CR>', { desc = 'Next Tab' })
