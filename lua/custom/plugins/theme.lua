@@ -40,10 +40,76 @@ return {
       highlights.CursorLineNr = { bg = "NONE" }
       highlights.FoldColumn = { bg = "NONE" }
       
-      -- Make floating windows slightly transparent but still readable
-      highlights.NormalFloat = { bg = colors.bg_dark, fg = colors.fg }
-      highlights.FloatBorder = { bg = "NONE", fg = colors.border }
-      highlights.FloatTitle = { bg = "NONE", fg = colors.blue, bold = true }
+      -- Enhanced floating windows with better backgrounds
+      highlights.NormalFloat = { bg = colors.bg_sidebar, fg = colors.fg }
+      highlights.FloatBorder = { bg = colors.bg_sidebar, fg = colors.border }
+      highlights.FloatTitle = { bg = colors.bg_sidebar, fg = colors.blue, bold = true }
+      
+      -- Lazy.nvim specific highlights
+      highlights.LazyNormal = { bg = colors.bg_sidebar, fg = colors.fg }
+      highlights.LazyButton = { bg = colors.bg_visual, fg = colors.fg }
+      highlights.LazyButtonActive = { bg = colors.blue, fg = colors.bg }
+      highlights.LazyComment = { fg = colors.comment }
+      highlights.LazyCommit = { fg = colors.magenta }
+      highlights.LazyCommitIssue = { fg = colors.red }
+      highlights.LazyCommitType = { fg = colors.blue }
+      highlights.LazyDimmed = { fg = colors.fg_dark }
+      highlights.LazyDir = { fg = colors.blue }
+      highlights.LazyH1 = { bg = colors.blue, fg = colors.bg, bold = true }
+      highlights.LazyH2 = { fg = colors.blue, bold = true }
+      highlights.LazyLocal = { fg = colors.cyan }
+      highlights.LazyProgressDone = { fg = colors.green }
+      highlights.LazyProgressTodo = { fg = colors.fg_gutter }
+      highlights.LazyProp = { fg = colors.cyan }
+      highlights.LazyReasonCmd = { fg = colors.yellow }
+      highlights.LazyReasonEvent = { fg = colors.orange }
+      highlights.LazyReasonFt = { fg = colors.purple }
+      highlights.LazyReasonImport = { fg = colors.green }
+      highlights.LazyReasonKeys = { fg = colors.blue }
+      highlights.LazyReasonPlugin = { fg = colors.red }
+      highlights.LazyReasonRuntime = { fg = colors.magenta }
+      highlights.LazyReasonSource = { fg = colors.cyan }
+      highlights.LazyReasonStart = { fg = colors.green }
+      highlights.LazySpecial = { fg = colors.blue }
+      highlights.LazyTaskError = { fg = colors.red }
+      highlights.LazyTaskOutput = { fg = colors.fg }
+      highlights.LazyUrl = { fg = colors.blue }
+      highlights.LazyValue = { fg = colors.cyan }
+      
+      -- Mason.nvim highlights
+      highlights.MasonNormal = { bg = colors.bg_sidebar, fg = colors.fg }
+      highlights.MasonHeader = { bg = colors.blue, fg = colors.bg, bold = true }
+      highlights.MasonHeaderSecondary = { bg = colors.orange, fg = colors.bg, bold = true }
+      highlights.MasonHighlight = { fg = colors.blue }
+      highlights.MasonHighlightBlock = { bg = colors.blue, fg = colors.bg }
+      highlights.MasonHighlightBlockBold = { bg = colors.blue, fg = colors.bg, bold = true }
+      highlights.MasonHighlightSecondary = { fg = colors.orange }
+      highlights.MasonLink = { fg = colors.blue }
+      highlights.MasonMuted = { fg = colors.comment }
+      highlights.MasonMutedBlock = { bg = colors.bg_visual, fg = colors.fg }
+      highlights.MasonMutedBlockBold = { bg = colors.bg_visual, fg = colors.fg, bold = true }
+      
+      -- Which-key highlights
+      highlights.WhichKeyNormal = { bg = colors.bg_sidebar, fg = colors.fg }
+      highlights.WhichKeyBorder = { bg = colors.bg_sidebar, fg = colors.border }
+      
+      -- Notify highlights
+      highlights.NotifyBackground = { bg = colors.bg_sidebar }
+      highlights.NotifyERRORBorder = { fg = colors.red }
+      highlights.NotifyWARNBorder = { fg = colors.yellow }
+      highlights.NotifyINFOBorder = { fg = colors.blue }
+      highlights.NotifyDEBUGBorder = { fg = colors.comment }
+      highlights.NotifyTRACEBorder = { fg = colors.purple }
+      highlights.NotifyERRORIcon = { fg = colors.red }
+      highlights.NotifyWARNIcon = { fg = colors.yellow }
+      highlights.NotifyINFOIcon = { fg = colors.blue }
+      highlights.NotifyDEBUGIcon = { fg = colors.comment }
+      highlights.NotifyTRACEIcon = { fg = colors.purple }
+      highlights.NotifyERRORTitle = { fg = colors.red }
+      highlights.NotifyWARNTitle = { fg = colors.yellow }
+      highlights.NotifyINFOTitle = { fg = colors.blue }
+      highlights.NotifyDEBUGTitle = { fg = colors.comment }
+      highlights.NotifyTRACETitle = { fg = colors.purple }
       
       -- Make sidebars transparent
       highlights.NeoTreeNormal = { bg = "NONE" }
@@ -55,21 +121,25 @@ return {
       highlights.StatusLineNC = { bg = "NONE", fg = colors.fg_dark }
       
       -- Enhanced popup menu transparency
-      highlights.Pmenu = { bg = colors.bg_popup, fg = colors.fg }
+      highlights.Pmenu = { bg = colors.bg_sidebar, fg = colors.fg }
       highlights.PmenuSel = { bg = colors.bg_visual, fg = colors.fg }
-      highlights.PmenuSbar = { bg = colors.bg_popup }
+      highlights.PmenuSbar = { bg = colors.bg_sidebar }
       highlights.PmenuThumb = { bg = colors.fg_gutter }
+      highlights.PmenuKind = { bg = colors.bg_sidebar, fg = colors.cyan }
+      highlights.PmenuKindSel = { bg = colors.bg_visual, fg = colors.cyan }
+      highlights.PmenuExtra = { bg = colors.bg_sidebar, fg = colors.comment }
+      highlights.PmenuExtraSel = { bg = colors.bg_visual, fg = colors.comment }
       
       -- Enhanced telescope transparency
-      highlights.TelescopeNormal = { bg = "NONE", fg = colors.fg }
-      highlights.TelescopeBorder = { bg = "NONE", fg = colors.border }
+      highlights.TelescopeNormal = { bg = colors.bg_sidebar, fg = colors.fg }
+      highlights.TelescopeBorder = { bg = colors.bg_sidebar, fg = colors.border }
       highlights.TelescopeSelection = { bg = colors.bg_visual, fg = colors.fg }
       highlights.TelescopeMatching = { fg = colors.blue }
-      highlights.TelescopePromptNormal = { bg = colors.bg_dark }
-      highlights.TelescopePromptBorder = { bg = colors.bg_dark, fg = colors.bg_dark }
+      highlights.TelescopePromptNormal = { bg = colors.bg_sidebar }
+      highlights.TelescopePromptBorder = { bg = colors.bg_sidebar, fg = colors.border }
       highlights.TelescopePromptTitle = { bg = colors.blue, fg = colors.bg }
       highlights.TelescopePreviewTitle = { bg = colors.green, fg = colors.bg }
-      highlights.TelescopeResultsTitle = { bg = colors.bg_dark, fg = colors.bg_dark }
+      highlights.TelescopeResultsTitle = { bg = colors.purple, fg = colors.bg }
       
       -- Enhanced diagnostic colors
       highlights.DiagnosticError = { fg = colors.error }
