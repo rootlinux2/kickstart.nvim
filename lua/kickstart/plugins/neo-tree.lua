@@ -180,6 +180,7 @@ return {
           ["<"] = "prev_source",
           [">"] = "next_source",
           ["i"] = "show_file_details",
+          ["H"] = "toggle_hidden",
           ['\\'] = 'close_window',
         },
       },

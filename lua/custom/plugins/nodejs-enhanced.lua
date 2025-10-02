@@ -7,9 +7,9 @@ return {
     event = { "BufRead package.json" },
     config = function()
       require("package-info").setup({
-        colors = {
-          up_to_date = "#3C4048",
-          outdated = "#fc7b7b",
+        highlights = {
+          up_to_date = { fg = "#3C4048" },
+          outdated = { fg = "#fc7b7b" },
         },
         icons = {
           enable = true,
