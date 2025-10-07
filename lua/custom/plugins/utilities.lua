@@ -145,7 +145,13 @@ return {
         vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
       end
 
-      vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+      -- Use modern autocmd API instead of vim.cmd
+      vim.api.nvim_create_autocmd("TermOpen", {
+        pattern = "term://*",
+        callback = function()
+          set_terminal_keymaps()
+        end,
+      })
 
       -- Terminal specific commands
       local Terminal = require('toggleterm.terminal').Terminal

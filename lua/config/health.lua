@@ -86,7 +86,7 @@ function M.cleanup()
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     if buf ~= current_buf and vim.api.nvim_buf_is_loaded(buf) then
       local buf_name = vim.api.nvim_buf_get_name(buf)
-      if buf_name == "" or not vim.api.nvim_buf_get_option(buf, "modified") then
+      if buf_name == "" or not vim.bo[buf].modified then
         vim.api.nvim_buf_delete(buf, { force = false })
       end
     end

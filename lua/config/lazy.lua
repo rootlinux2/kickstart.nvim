@@ -13,7 +13,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Plugins
-require('lazy').setup {
+require('lazy').setup({
   -- Which Key
   {
     'folke/which-key.nvim',
@@ -69,13 +69,30 @@ require('lazy').setup {
       pcall(telescope.load_extension, 'fzf')
       pcall(telescope.load_extension, 'lazygit')
       pcall(telescope.load_extension, 'ui-select')
-
-
     end,
   },
 
-  --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  { import = 'kickstart.plugins' }, -- Import plugins from the custom directory
+  --  Import plugins from directories
+  { import = 'kickstart.plugins' }, -- Import plugins from kickstart directory
   { import = 'custom.plugins' }, -- Import plugins from the custom directory
-  --
-}
+}, {
+  -- Lazy.nvim configuration options
+  checker = { 
+    enabled = false, -- Don't automatically check for updates
+    notify = false 
+  },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        "matchparen",
+        "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
+})

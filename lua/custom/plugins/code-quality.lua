@@ -60,11 +60,5 @@ return {
     end,
   },
 
-  -- Enhanced JavaScript/TypeScript snippets
-  {
-    "rafamadriz/friendly-snippets",
-    config = function()
-      require("luasnip.loaders.from_vscode").lazy_load()
-    end,
-  },
+  -- Note: friendly-snippets moved to nvim-cmp.lua to avoid duplicate loading
 }

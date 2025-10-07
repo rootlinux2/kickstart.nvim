@@ -12,6 +12,11 @@ require 'config.lazy' -- plugin manager & plugins
 require 'config.autocmds'
 require 'config.diagnostics'
 require 'config.keymaps'
+require 'config.health'
+require 'config.health-summary'
+require 'config.simple-deprecation-check'
+require 'config.deprecation-filter' -- Improved deprecation handling
+require 'config.plugin-updates' -- Plugin update management
 --require 'config.guess-indent' -- optional plugin config
 
 -- Enable terminal title updates

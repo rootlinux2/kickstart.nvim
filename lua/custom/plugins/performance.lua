@@ -25,28 +25,6 @@ return {
     },
   },
 
-  -- Better filetype detection for faster loading
-  {
-    "nathom/filetype.nvim",
-    lazy = false,
-    priority = 9999,
-    opts = {
-      overrides = {
-        extensions = {
-          tf = "terraform",
-          tfvars = "terraform",
-          tfstate = "json",
-        },
-        literal = {
-          [".gitignore"] = "gitignore",
-          ["Dockerfile"] = "dockerfile",
-          ["docker-compose.yml"] = "yaml.docker-compose",
-        },
-        complex = {
-          [".*git/config"] = "gitconfig",
-          [".*%.env%..*"] = "sh",
-        },
-      },
-    },
-  },
+  -- Note: filetype.nvim removed as it conflicts with built-in filetype detection in Neovim 0.8+
+  -- Modern Neovim has excellent built-in filetype detection that's faster and more reliable
 }
