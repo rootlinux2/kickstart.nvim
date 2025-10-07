@@ -365,3 +365,86 @@ km('n', '<leader>sT', '<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>', { desc =
 km('n', '<leader>sh', function() require('telescope.builtin').help_tags() end, { desc = '[S]earch [H]elp' })
 km('n', '<leader>sf', function() require('telescope.builtin').find_files() end, { desc = '[S]earch [F]iles' })
 km('n', '<leader>ss', function() require('telescope.builtin').builtin() end, { desc = '[S]earch [S]elect Telescope' })
+
+-- Enhanced Telescope productivity keymaps
+km('n', '<leader>sk', function() require('telescope.builtin').keymaps() end, { desc = '[S]earch [K]eymaps' })
+km('n', '<leader>sd', function() require('telescope.builtin').diagnostics() end, { desc = '[S]earch [D]iagnostics' })
+km('n', '<leader>sr', function() require('telescope.builtin').resume() end, { desc = '[S]earch [R]esume' })
+km('n', '<leader>s.', function() require('telescope.builtin').oldfiles() end, { desc = '[S]earch Recent Files ("." for repeat)' })
+km('n', '<leader><leader>', function() require('telescope.builtin').buffers() end, { desc = '[ ] Find existing buffers' })
+km('n', '<leader>sw', function() require('telescope.builtin').grep_string() end, { desc = '[S]earch current [W]ord' })
+km('n', '<leader>sj', function() require('telescope.builtin').jumplist() end, { desc = '[S]earch [J]umplist' })
+km('n', '<leader>sm', function() require('telescope.builtin').marks() end, { desc = '[S]earch [M]arks' })
+km('n', '<leader>sc', function() require('telescope.builtin').commands() end, { desc = '[S]earch [C]ommands' })
+km('n', '<leader>sH', function() require('telescope.builtin').command_history() end, { desc = '[S]earch Command [H]istory' })
+km('n', '<leader>sq', function() require('telescope.builtin').quickfix() end, { desc = '[S]earch [Q]uickfix' })
+
+-- Git with Telescope
+km('n', '<leader>sgc', function() require('telescope.builtin').git_commits() end, { desc = '[S]earch [G]it [C]ommits' })
+km('n', '<leader>sgb', function() require('telescope.builtin').git_branches() end, { desc = '[S]earch [G]it [B]ranches' })
+km('n', '<leader>sgs', function() require('telescope.builtin').git_status() end, { desc = '[S]earch [G]it [S]tatus' })
+km('n', '<leader>sgf', function() require('telescope.builtin').git_files() end, { desc = '[S]earch [G]it [F]iles' })
+
+-- LSP with Telescope
+km('n', '<leader>lws', function() require('telescope.builtin').lsp_workspace_symbols() end, { desc = '[L]SP [W]orkspace [S]ymbols' })
+km('n', '<leader>lds', function() require('telescope.builtin').lsp_document_symbols() end, { desc = '[L]SP [D]ocument [S]ymbols' })
+km('n', '<leader>ldd', function() require('telescope.builtin').lsp_definitions() end, { desc = '[L]SP [D]efinitions' })
+km('n', '<leader>ldr', function() require('telescope.builtin').lsp_references() end, { desc = '[L]SP [R]eferences' })
+km('n', '<leader>ldi', function() require('telescope.builtin').lsp_implementations() end, { desc = '[L]SP [I]mplementations' })
+
+-- Productivity shortcuts
+km('n', '<leader>fR', function()
+  local filename = vim.fn.expand('%:t')
+  require('telescope.builtin').find_files({
+    default_text = filename,
+    prompt_title = 'Find files with same name: ' .. filename
+  })
+end, { desc = 'Find files with same name as current' })
+
+-- Custom search in current buffer directory
+km('n', '<leader>fcd', function()
+  require('telescope.builtin').find_files({
+    cwd = vim.fn.expand('%:p:h'),
+    prompt_title = 'Files in current directory'
+  })
+end, { desc = 'Find files in current directory' })
+
+-- Search within current buffer
+km('n', '<leader>/', function()
+  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+    winblend = 10,
+    previewer = false,
+  })
+end, { desc = '[/] Fuzzily search in current buffer' })
+
+-- Quick navigation to config files
+km('n', '<leader>fc', function()
+  require('telescope.builtin').find_files({
+    cwd = vim.fn.stdpath('config'),
+    prompt_title = 'Neovim Config Files'
+  })
+end, { desc = 'Find config files' })
+
+-- Project root functions
+km('n', '<leader>fp', function()
+  local project_files = require('telescope.builtin').find_files
+  local git_files = require('telescope.builtin').git_files
+  
+  -- Try git files first, fallback to find_files
+  local ok = pcall(git_files, { show_untracked = true })
+  if not ok then
+    project_files()
+  end
+end, { desc = 'Find project files (git-aware)' })
+
+-- Enhanced quickfix navigation
+km('n', '<leader>qn', '<cmd>cnext<CR>zz', { desc = 'Next quickfix item' })
+km('n', '<leader>qp', '<cmd>cprev<CR>zz', { desc = 'Previous quickfix item' })
+km('n', '<leader>qo', '<cmd>copen<CR>', { desc = 'Open quickfix' })
+km('n', '<leader>qc', '<cmd>cclose<CR>', { desc = 'Close quickfix' })
+
+-- Location list navigation
+km('n', '<leader>ln', '<cmd>lnext<CR>zz', { desc = 'Next location list item' })
+km('n', '<leader>lp', '<cmd>lprev<CR>zz', { desc = 'Previous location list item' })
+km('n', '<leader>lo', '<cmd>lopen<CR>', { desc = 'Open location list' })
+km('n', '<leader>lc', '<cmd>lclose<CR>', { desc = 'Close location list' })

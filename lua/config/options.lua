@@ -1,6 +1,13 @@
 -- Basic Neovim options
 local o = vim.opt
 
+-- Performance optimizations
+o.lazyredraw = true -- Don't redraw while executing macros
+o.ttyfast = true -- Faster terminal connection
+o.regexpengine = 1 -- Use old regexp engine (faster for some cases)
+o.synmaxcol = 300 -- Limit syntax highlighting to 300 columns
+o.redrawtime = 1500 -- Allow more time for loading syntax on large files
+
 o.termguicolors = true
 o.shell = '/usr/bin/zsh'
 o.number = true
@@ -51,3 +58,8 @@ o.incsearch = true -- Incremental search
 o.splitkeep = 'screen' -- Keep the same relative cursor position when splitting
 o.shortmess:append 'c' -- Don't show completion messages
 o.formatoptions:remove { 'c', 'r', 'o' } -- Don't auto-wrap comments
+
+-- Memory and performance
+o.maxmempattern = 20000 -- Increase pattern memory
+o.history = 1000 -- Command history
+o.undolevels = 10000 -- More undo levels
