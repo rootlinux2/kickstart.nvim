@@ -448,3 +448,25 @@ km('n', '<leader>ln', '<cmd>lnext<CR>zz', { desc = 'Next location list item' })
 km('n', '<leader>lp', '<cmd>lprev<CR>zz', { desc = 'Previous location list item' })
 km('n', '<leader>lo', '<cmd>lopen<CR>', { desc = 'Open location list' })
 km('n', '<leader>lc', '<cmd>lclose<CR>', { desc = 'Close location list' })
+
+-- Configuration management
+km('n', '<leader>ch', '<cmd>checkhealth<CR>', { desc = 'Run health check' })
+km('n', '<leader>cl', '<cmd>Lazy<CR>', { desc = 'Open Lazy plugin manager' })
+km('n', '<leader>cm', '<cmd>Mason<CR>', { desc = 'Open Mason' })
+
+-- Deprecation and plugin management
+km('n', '<leader>cds', function()
+  require('config.deprecation-filter').show_deprecation_stats()
+end, { desc = 'Show deprecation statistics' })
+
+km('n', '<leader>cpu', function()
+  require('config.plugin-updates').check_plugin_updates()
+end, { desc = 'Check plugin deprecation status' })
+
+km('n', '<leader>cuu', function()
+  require('config.plugin-updates').update_all_plugins()
+end, { desc = 'Update all plugins' })
+
+km('n', '<leader>crp', function()
+  require('config.plugin-updates').rebuild_plugins()
+end, { desc = 'Rebuild plugins with native dependencies' })

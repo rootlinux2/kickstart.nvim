@@ -21,7 +21,11 @@ function M.setup_deprecation_filter()
       "project.nvim",
       "nvim-spectre",
       "nvim-dap-ui",
-      "diffview.nvim"
+      "diffview.nvim",
+      "git-conflict.nvim",
+      "neotest-jest",
+      "nvim-colorizer.lua",
+      "nvim-hlslens"
     }
     
     -- Only log if it's from our config or if it's a new deprecation
@@ -98,7 +102,7 @@ function M.show_deprecation_stats()
     return
   end
   
-  print("Top deprecated functions:")
+  print("Top deprecated functions (runtime session):")
   for i, item in ipairs(sorted_counts) do
     if i <= 10 then -- Show top 10
       print(string.format("  %d. %s (%d times)", i, item.name, item.count))
@@ -106,7 +110,18 @@ function M.show_deprecation_stats()
   end
   
   print(string.format("\nTotal unique deprecations: %d", #sorted_counts))
-  print("Run :ShowDeprecationLog for detailed log")
+  
+  -- Show plugin summary
+  print("\n=== Known Plugin Issues ===")
+  print("• nvim-hlslens: Heavy vim.validate usage (search highlighting)")
+  print("• telescope.nvim: vim.tbl_flatten, vim.validate in multiple places")
+  print("• project.nvim: vim.lsp.buf_get_clients for LSP detection")
+  print("• git-conflict.nvim: vim.highlight for syntax highlighting")
+  print("• nvim-colorizer.lua: vim.tbl_flatten for color processing")
+  print("• neotest-jest: vim.tbl_flatten for test utilities")
+  
+  print("\nUse :CheckPluginDeprecation for detailed plugin status")
+  print("Use :UpdateAllPlugins to get latest plugin versions")
 end
 
 -- Create commands

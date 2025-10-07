@@ -14,21 +14,45 @@ function M.check_plugin_updates()
     },
     {
       name = "telescope.nvim",
-      issue = "Uses vim.tbl_flatten",
+      issue = "Uses vim.tbl_flatten, vim.validate",
       status = "Actively maintained - should update soon",
       action = "Update regularly with :Lazy update"
+    },
+    {
+      name = "git-conflict.nvim",
+      issue = "Uses vim.highlight",
+      status = "Needs update to use vim.hl",
+      action = "Check for updates or fork if needed"
+    },
+    {
+      name = "neotest-jest",
+      issue = "Uses vim.tbl_flatten",
+      status = "Testing plugin - may need update",
+      action = "Monitor updates for testing suite"
+    },
+    {
+      name = "nvim-colorizer.lua",
+      issue = "Uses vim.tbl_flatten",
+      status = "Color plugin - check for updates",
+      action = "Update or find alternative"
+    },
+    {
+      name = "nvim-hlslens",
+      issue = "Uses vim.validate (old API)",
+      status = "Search highlighting - needs update",
+      action = "Monitor for vim.validate API fix"
+    },
+    {
+      name = "plenary.nvim",
+      issue = "Uses vim.tbl_flatten and vim.validate",
+      status = "Core dependency - waiting for update",
+      action = "Monitor updates - affects many plugins"
     },
     {
       name = "nvim-treesitter",
       issue = "Uses vim.tbl_flatten in compatibility layer",
       status = "Expected - compatibility for older Neovim",
       action = "Normal - no action needed"
-    },
-    {
-      name = "plenary.nvim",
-      issue = "Uses vim.tbl_flatten and vim.validate",
-      status = "Core dependency - waiting for update",
-      action = "Monitor updates"
     },
     {
       name = "nvim-spectre",
